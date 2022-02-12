@@ -34,10 +34,22 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
+
 def printMenu():
-    print("Bienvenido")
-    print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("""
+Bienvenido
+Por favor antes de continuar carga la información en el catálogo.
+
+1- Cargar información en el catálogo
+2- Listar los álbumes en un periodo de tiempo
+3- Encontrar los artistas más populares
+4- Clasificar las canciones por popularidad
+5- Encontrar la canción más popular de un artista
+6- Encontrar la discografia de un artista
+7- Clasificar las canciones con mayor distribución
+0- Salir
+        """)
+
 
 catalog = None
 
@@ -52,7 +64,18 @@ while True:
 
     elif int(inputs[0]) == 2:
         pass
-
-    else:
+    elif int(inputs[0]) == 3:
+        pass
+    elif int(inputs[0]) == 4:
+        pass
+    elif int(inputs[0]) == 5:
+        pass
+    elif int(inputs[0]) == 6:
+        pass
+    elif int(inputs[0]) == 7:
+        pass
+    elif int(inputs[0]) == 0:
         sys.exit(0)
+    else:
+        continue
 sys.exit(0)
