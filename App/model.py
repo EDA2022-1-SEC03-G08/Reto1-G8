@@ -50,16 +50,60 @@ def newCatalog():
     return catalog
 
 
+def newCatalog():
+    """
+    Inicializa el catálogo de tracks. Crea una lista vacia para guardar
+    todos los tracks, adicionalmente, crea una lista vacia para los artistas,
+    una lista vacia para los albumess. Retorna el catalogo inicializado.
+    """
+    catalog = {'albums': None,
+               'artists': None,
+               'tracks': None}
+
+    catalog['albums'] = lt.newList('SINGLE_LINKED')
+    catalog['artists'] = lt.newList('ARRAY_LIST',
+                                    cmpfunction=compareauthors)
+    catalog['tracks'] = lt.newList('ARRAY_LIST',
+                                 cmpfunction=comparetagnames)
+    return catalog
+
+
 # Funciones para agregar informacion al catalogo
 def addNewAlbum(catalog, album):
     neoAlbum = newAlbum(album)
     lt.addLast(catalog['albums'], neoAlbum)
     return catalog
 
+<<<<<<< HEAD
 
 def addNewArtist(catalog, artist):
     lt.addLast(catalog['artist'], artist)
     return catalog
+=======
+def addAlbum(catalog, album):
+    # Se adiciona el album a la lista de albumes
+    lt.addLast(catalog['albums'], album)
+    return catalog
+
+
+def addArtist(catalog, artist):
+    """
+    Adiciona un tag a la lista de tags
+    """
+    t = newTag(artist['relevante'], artist['relevante'])
+    lt.addLast(catalog['artists'], t)
+    return catalog
+
+
+def addTrack(catalog, track):
+    """
+    Adiciona un tag a la lista de tags
+    """
+    t = newBookTag(track['relevante'], track['relevante'])
+    lt.addLast(catalog['tracks'], t)
+    return catalog
+
+>>>>>>> 8227fa805e931465ecfd7af8193e06ba6594a623
 # Funciones para creacion de datos
 
 

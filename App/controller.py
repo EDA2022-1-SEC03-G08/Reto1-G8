@@ -41,6 +41,16 @@ def newController():
 
 # Inicialización del Catálogo de libros
 
+def newController():
+    """
+    Crea una instancia del modelo
+    """
+    control = {
+        'model': None
+    }
+    control['model'] = model.newCatalog()
+    return control
+
 # Funciones para la carga de datos
 def loadData(control):
     catalog = control['model']
@@ -48,6 +58,7 @@ def loadData(control):
     artist = loadArtist(catalog)
     return albums
 
+<<<<<<< HEAD
 
 def loadAlbums(catalog):
     albumsfile = cf.data_dir + 'spotify-albums-utf8-5pct.csv'
@@ -66,6 +77,61 @@ def loadArtist(catalog):
             model.addNewArtist(catalog, artist)
     print(catalog)
     return model.artistSize(catalog)
+=======
+def loadData(control):
+    """
+    Carga los datos de los archivos y cargar los datos en la
+    estructura de datos
+    """
+    catalog = control['model']
+    albums = loadAlbums(catalog)
+    artists = loadArtists(catalog)
+    tracks = loadTracks(catalog)
+    sortTracks(catalog)
+    return albums, artists, tracks
+
+
+def loadAlbums(catalog):
+    """
+    Carga los albumes del archivo.  Por cada album se toman sus autores y por
+    cada uno de ellos, se crea en la lista de autores, a dicho autor y una
+    referencia al libro que se esta procesando.
+    """
+    albumsfile = cf.data_dir + 'Spotify/spotify-albums-utf8-5pct.csv'
+    input_file = csv.DictReader(open(albumsfile, encoding='utf-8'))
+    for album in input_file:
+        model.addAlbum(catalog, album)
+    return model.albumSize(catalog)
+
+
+def loadArtists(catalog):
+    """
+    Carga todos los artistas del archivo y los agrega a la lista de artistas
+    """
+    artistsfile = cf.data_dir + 'Spotify/spotify-artists-utf8-5pct.csv'
+    input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
+    for artist in input_file:
+        model.addArtist(catalog, artist)
+    return model.artistsSize(catalog)
+
+
+def loadTracks(catalog):
+    """
+    Carga la información que asocia tags con tracks.
+    """
+    tracksfile = cf.data_dir + 'Spotify/spotify-tracks-utf8-5pct.csv'
+    input_file = csv.DictReader(open(tracksfile, encoding='utf-8'))
+    for track in input_file:
+        model.addTrack(catalog, track)
+    return model.tracksSize(catalog)
+
+
+>>>>>>> 8227fa805e931465ecfd7af8193e06ba6594a623
 # Funciones de ordenamiento
+def sortTracks(catalog):
+    """
+    Ordena los tracks por average_rating
+    """
+    model.sortTracks(catalog)
 
 # Funciones de consulta sobre el catálogo
