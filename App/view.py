@@ -35,6 +35,14 @@ operación solicitada
 """
 
 
+def newController():
+    """
+    Se crea una instancia del controlador
+    """
+    control = controller.newController()
+    return control
+
+
 def printMenu():
     print("""
 Bienvenido
@@ -51,7 +59,12 @@ Por favor antes de continuar carga la información en el catálogo.
         """)
 
 
-catalog = None
+def loadData():
+    albums, artist = controller.loadData(catalog)
+    return albums, artist
+
+
+catalog = newController()
 
 """
 Menu principal
@@ -61,7 +74,8 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-
+        abm, ats = loadData()
+        print(f'Albumes cargados: {str(abm)}')
     elif int(inputs[0]) == 2:
         pass
     elif int(inputs[0]) == 3:
