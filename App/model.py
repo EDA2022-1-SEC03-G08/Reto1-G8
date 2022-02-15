@@ -31,18 +31,69 @@ from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
 
 """
-Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
+Se define la estructura de un catálogo de videos.
+El catálogo tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
 """
 
+
 # Construccion de modelos
+def newCatalog():
+
+    catalog = {'albums': None,
+               'artist': None,
+               'tracks': None}
+
+    catalog['albums'] = lt.newList('ARRAY_LIST')
+    catalog['artist'] = lt.newList('SINGLE_LINKED')
+    catalog['tracks'] = lt.newList('SINGLE_LINKED')
+    return catalog
+
 
 # Funciones para agregar informacion al catalogo
+def addNewAlbum(catalog, album):
+    neoAlbum = newAlbum(album)
+    lt.addLast(catalog['albums'], neoAlbum)
+    return catalog
 
+
+def addNewArtist(catalog, artist):
+    lt.addLast(catalog['artist'], artist)
+    return catalog
 # Funciones para creacion de datos
 
-# Funciones de consulta
 
+def newAlbum(album1):
+    album = {'name': "", 'release_date': "", 'avalaible_markets': None,
+             'total_tracks': None, 'type': "", 'artists': None,
+             'external_urls': "", 'images': ""}
+
+    album['name'] = album1['name']
+    album['release_date'] = album1['release_date']
+    album['available_markets'] = album1['available_markets']
+    album['total_tracks'] = album1['total_tracks']
+    album['type'] = album1['album_type']
+    album['artists'] = lt.newList('ARRAY_LIST')
+    album['external_urls'] = album1['external_urls']
+    album['images'] = album1['images']
+    return album
+
+
+def newArtist(artist1):
+    artist = {'name': "", 'popularity': "", 'genres': "",
+              'followers': "", 'tracks': None}
+    artist['name'] = artist1['name']
+    artist['popularity'] = artist1['popularity']
+    artist['genres'] = lt.newList('ARRAY_LIST')
+
+
+# Funciones de consulta
+def albumSize(catalog):
+    return lt.size(catalog['albums'])
+
+
+def artistSize(catalog):
+    return lt.size(catalog['artist'])
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
