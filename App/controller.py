@@ -46,7 +46,7 @@ def newController():
     Crea una instancia del modelo
     """
     control = {
-        'model': None
+        'model': ""
     }
     control['model'] = model.newCatalog()
     return control
@@ -57,14 +57,15 @@ def loadData(control):
     catalog = control['model']
     albums = loadAlbums(catalog)
     artist = loadArtist(catalog)
-    return albums,artist
+    tracks = loadTrack(catalog)
+    return albums, artist, tracks
 
 
 def loadAlbums(catalog):
     albumsfile = cf.data_dir + 'spotify-albums-utf8-5pct.csv'
     input_file = csv.DictReader(open(albumsfile, encoding='utf-8'))
     for album in input_file:
-        if model.albumSize(catalog) < 5:
+        if model.albumSize(catalog) < 1:
             model.addNewAlbum(catalog, album)
     print(catalog['albums'])
     print('\n')
@@ -75,9 +76,10 @@ def loadArtist(catalog):
     albumsfile = cf.data_dir + 'spotify-artists-utf8-5pct.csv'
     input_file = csv.DictReader(open(albumsfile, encoding='utf-8'))
     for artist in input_file:
-        if model.artistSize(catalog) < 5:
+        if model.artistSize(catalog) < 1:
             model.addNewArtist(catalog, artist)
     print(catalog['artist'])
+    print('\n')
     return model.artistSize(catalog)
 
 
@@ -85,16 +87,12 @@ def loadTrack(catalog):
     tracksfile = cf.data_dir + 'spotify-tracks-utf8-5pct.csv'
     input_file = csv.DictReader(open(tracksfile, encoding='utf-8'))
     for track in input_file:
-        if model.trackSize(catalog) < 5:
-            model.addNewtrack(catalog, artist)
+        if model.trackSize(catalog) < 1:
+            model.addNewTrack(catalog, track)
     print(catalog['tracks'])
+    print('\n')
     return model.trackSize(catalog)
 
-# Funciones de ordenamiento
-def sortTracks(catalog):
-    """
-    Ordena los tracks por average_rating
-    """
-    model.sortTracks(catalog)
 
+# Funciones de ordenamiento
 # Funciones de consulta sobre el catálogo

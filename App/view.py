@@ -60,8 +60,8 @@ Por favor antes de continuar carga la información en el catálogo.
 
 
 def loadData():
-    albums, artist = controller.loadData(catalog)
-    return albums, artist
+    albums, artist, tracks = controller.loadData(catalog)
+    return albums, artist, tracks
 
 
 catalog = newController()
@@ -74,10 +74,11 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        abm, ats = loadData()
+        abm, ats, trks = loadData()
         print(f'Albumes cargados: {str(abm)}')
-        print(f'Artistas cargados: {str(ats)}' )
-        
+        print(f'Artistas cargados: {str(ats)}')
+        print(f'Canciones cargadas: {str(trks)}')
+
     elif int(inputs[0]) == 2:
         pass
     elif int(inputs[0]) == 3:
