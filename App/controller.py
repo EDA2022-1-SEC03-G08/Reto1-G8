@@ -56,27 +56,32 @@ def newController():
 def loadData(control):
     catalog = control['model']
     albums = loadAlbums(catalog)
-    artist = loadArtist(catalog)
-    return albums
+    artists = loadArtists(catalog)
+    tracks = loadTracks(catalog)
+    return albums, artists, tracks
 
 
 def loadAlbums(catalog):
-    albumsfile = cf.data_dir + 'spotify-albums-utf8-5pct.csv'
+    albumsfile = cf.data_dir + 'Spotify/spotify-albums-utf8-5pct.csv'
     input_file = csv.DictReader(open(albumsfile, encoding='utf-8'))
     for album in input_file:
-        if model.albumSize(catalog) < 5:
-            model.addNewAlbum(catalog, album)
+        model.addNewAlbum(catalog, album)
     return model.albumSize(catalog)
 
 
-def loadArtist(catalog):
-    albumsfile = cf.data_dir + 'spotify-artists-utf8-5pct.csv'
-    input_file = csv.DictReader(open(albumsfile, encoding='utf-8'))
+def loadArtists(catalog):
+    artistfile = cf.data_dir + 'Spotify/spotify-artists-utf8-5pct.csv'
+    input_file = csv.DictReader(open(artistfile, encoding='utf-8'))
     for artist in input_file:
-        if model.artistSize(catalog) < 5:
-            model.addNewArtist(catalog, artist)
-    print(catalog)
+        model.addNewArtist(catalog, artist)
     return model.artistSize(catalog)
+
+def loadTracks(catalog):
+    trackfile = cf.data_dir + 'Spotify/spotify-tracks-utf8-5pct.csv'
+    input_file = csv.DictReader(open(trackfile, encoding='utf-8'))
+    for track in input_file:
+        model.addNewTrack(catalog, track)
+    return model.trackSize(catalog)
 
 
 # Funciones de ordenamiento
