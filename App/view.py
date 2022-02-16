@@ -76,6 +76,8 @@ while True:
         print("Cargando información de los archivos ....")
         abm, ats = loadData()
         print(f'Albumes cargados: {str(abm)}')
+        print(f'Artistas cargados: {str(ats)}' )
+        
     elif int(inputs[0]) == 2:
         pass
     elif int(inputs[0]) == 3:

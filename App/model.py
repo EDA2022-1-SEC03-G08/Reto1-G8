@@ -50,22 +50,6 @@ def newCatalog():
     return catalog
 
 
-def newCatalog():
-    """
-    Inicializa el catálogo de tracks. Crea una lista vacia para guardar
-    todos los tracks, adicionalmente, crea una lista vacia para los artistas,
-    una lista vacia para los albumess. Retorna el catalogo inicializado.
-    """
-    catalog = {'albums': None,
-               'artists': None,
-               'tracks': None}
-
-    catalog['albums'] = lt.newList('SINGLE_LINKED')
-    catalog['artists'] = lt.newList('ARRAY_LIST')
-    catalog['tracks'] = lt.newList('ARRAY_LIST')
-    return catalog
-
-
 # Funciones para agregar informacion al catalogo
 def addNewAlbum(catalog, album):
     neoAlbum = newAlbum(album)
@@ -74,7 +58,14 @@ def addNewAlbum(catalog, album):
 
 
 def addNewArtist(catalog, artist):
-    lt.addLast(catalog['artist'], artist)
+    neoArtist = newArtist(artist)
+    lt.addLast(catalog['artist'], neoArtist)
+    return catalog
+
+
+def addNewTrack(catalog, track):
+    neoTrack = newTrack(track)
+    lt.addLast(catalog['tracks'],neoTrack)
     return catalog
 # Funciones para creacion de datos
 
@@ -97,11 +88,17 @@ def newAlbum(album1):
 
 def newArtist(artist1):
     artist = {'name': "", 'popularity': "", 'genres': "",
-              'followers': "", 'tracks': None}
+              'followers': "", 'tracks': ""}
     artist['name'] = artist1['name']
-    artist['popularity'] = artist1['popularity']
+    artist['popularity'] = artist1['artist_popularity']
     artist['genres'] = lt.newList('ARRAY_LIST')
+    artist['followers'] = artist1['followers']
+    artist['tracks'] = lt.newList('ARRAY_LIST')
+    return artist
 
+
+def newTrack(track1):
+    track = {}
 
 # Funciones de consulta
 def albumSize(catalog):
@@ -110,6 +107,10 @@ def albumSize(catalog):
 
 def artistSize(catalog):
     return lt.size(catalog['artist'])
+
+
+def trackSize(catalog):
+    return lt.size(catalog['tracks'])
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento

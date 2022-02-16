@@ -57,7 +57,7 @@ def loadData(control):
     catalog = control['model']
     albums = loadAlbums(catalog)
     artist = loadArtist(catalog)
-    return albums
+    return albums,artist
 
 
 def loadAlbums(catalog):
@@ -66,6 +66,8 @@ def loadAlbums(catalog):
     for album in input_file:
         if model.albumSize(catalog) < 5:
             model.addNewAlbum(catalog, album)
+    print(catalog['albums'])
+    print('\n')
     return model.albumSize(catalog)
 
 
@@ -75,9 +77,18 @@ def loadArtist(catalog):
     for artist in input_file:
         if model.artistSize(catalog) < 5:
             model.addNewArtist(catalog, artist)
-    print(catalog)
+    print(catalog['artist'])
     return model.artistSize(catalog)
 
+
+def loadTrack(catalog):
+    tracksfile = cf.data_dir + 'spotify-tracks-utf8-5pct.csv'
+    input_file = csv.DictReader(open(tracksfile, encoding='utf-8'))
+    for track in input_file:
+        if model.trackSize(catalog) < 5:
+            model.addNewtrack(catalog, artist)
+    print(catalog['tracks'])
+    return model.trackSize(catalog)
 
 # Funciones de ordenamiento
 def sortTracks(catalog):
