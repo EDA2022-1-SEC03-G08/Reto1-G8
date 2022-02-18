@@ -92,6 +92,19 @@ while True:
         pass
     elif int(inputs[0]) == 7:
         pass
+    elif int(inputs[0]) == 8:
+        print("""
+            Seleccionar el tipo de representación de la lista 
+            1.(ARRAY_LIST) 
+            2.(LINKED_LIST)
+            """)
+    elif int(inputs[0]) == 9:
+        print("""
+            Seleccionar el tipo de algoritmo de ordenamiento iterativo 
+            1.(selection) 
+            2.(insertion)
+            3.(shell)
+            """)
     elif int(inputs[0]) == 0:
         sys.exit(0)
     else:
