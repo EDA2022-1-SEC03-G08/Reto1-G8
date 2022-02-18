@@ -19,13 +19,11 @@
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
-
 import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
-
 
 """
 La vista se encarga de la interacción con el usuario
@@ -42,6 +40,13 @@ def newController():
     control = controller.newController()
     return control
 
+    #control = {'model': catalog}
+    #control = {'model': {'albums: []
+    #                     'artist': []
+    #                     'tracks': []
+    #                    }
+    #          }
+
 
 def printMenu():
     print("""
@@ -56,15 +61,15 @@ Por favor antes de continuar carga la información en el catálogo.
 6- Encontrar la discografia de un artista
 7- Clasificar las canciones con mayor distribución
 0- Salir
-        """)
+          """)
 
 
 def loadData():
-    albums, artist, tracks = controller.loadData(catalog)
-    return albums, artist, tracks
+    albums = controller.loadData(control)
+    return albums
 
 
-catalog = newController()
+control = newController()
 
 """
 Menu principal
@@ -73,11 +78,10 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+        albums = loadData()
         print("Cargando información de los archivos ....")
-        abm, ats, trks = loadData()
-        print(f'Albumes cargados: {str(abm)}')
-        print(f'Artistas cargados: {str(ats)}')
-        print(f'Canciones cargadas: {str(trks)}')
+        print(f'Cantidad de albumes cargados: {albums} \n')
+        print(lt.lastElement(control["model"]["albums"]))
 
     elif int(inputs[0]) == 2:
         pass

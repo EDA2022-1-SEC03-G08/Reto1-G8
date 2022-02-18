@@ -19,17 +19,16 @@
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
-
 import config as cf
 import model
 import csv
-
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
 
+# Inicialización del Catálogo de libros
 def newController():
     """
     Crea una instancia del modelo
@@ -39,60 +38,26 @@ def newController():
     return control
 
 
-# Inicialización del Catálogo de libros
-
-def newController():
-    """
-    Crea una instancia del modelo
-    """
-    control = {
-        'model': ""
-    }
-    control['model'] = model.newCatalog()
-    return control
-
-
 # Funciones para la carga de datos
 def loadData(control):
+
     catalog = control['model']
     albums = loadAlbums(catalog)
-    artist = loadArtist(catalog)
-    tracks = loadTrack(catalog)
-    return albums, artist, tracks
+    sortAlbums(catalog)
+
+    return albums
 
 
 def loadAlbums(catalog):
-    albumsfile = cf.data_dir + 'spotify-albums-utf8-5pct.csv'
-    input_file = csv.DictReader(open(albumsfile, encoding='utf-8'))
-    for album in input_file:
-        if model.albumSize(catalog) < 1:
-            model.addNewAlbum(catalog, album)
-    print(catalog['albums'])
-    print('\n')
+
+    albumsfile = cf.data_dir + 'spotify-albums-utf8-small.csv'
+    input_file_al = csv.DictReader(open(albumsfile, encoding='utf-8'))
+    for album in input_file_al:
+        model.addAlbum(catalog, album)
     return model.albumSize(catalog)
 
 
-def loadArtist(catalog):
-    albumsfile = cf.data_dir + 'spotify-artists-utf8-5pct.csv'
-    input_file = csv.DictReader(open(albumsfile, encoding='utf-8'))
-    for artist in input_file:
-        if model.artistSize(catalog) < 1:
-            model.addNewArtist(catalog, artist)
-    print(catalog['artist'])
-    print('\n')
-    return model.artistSize(catalog)
-
-
-def loadTrack(catalog):
-    tracksfile = cf.data_dir + 'spotify-tracks-utf8-5pct.csv'
-    input_file = csv.DictReader(open(tracksfile, encoding='utf-8'))
-    for track in input_file:
-        if model.trackSize(catalog) < 1:
-            model.addNewTrack(catalog, track)
-    print(catalog['tracks'])
-    print('\n')
-    return model.trackSize(catalog)
-
-
 # Funciones de ordenamiento
+def sortAlbums(catalog):
+    model.sortAlbums(catalog)
 # Funciones de consulta sobre el catálogo
