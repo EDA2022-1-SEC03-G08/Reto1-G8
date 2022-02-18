@@ -55,6 +55,8 @@ Por favor antes de continuar carga la información en el catálogo.
 5- Encontrar la canción más popular de un artista
 6- Encontrar la discografia de un artista
 7- Clasificar las canciones con mayor distribución
+8- Seleccionar el tipo de representación de la lista (ARRAY_LIST o LINKED_LIST) donde se quiere cargar el catálogo de música.
+9- Seleccionar el tipo de algoritmo de ordenamiento iterativo (selection, insertion o shell)
 0- Salir
         """)
 
