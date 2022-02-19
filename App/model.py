@@ -45,10 +45,12 @@ def newCatalog():
     catalog = {"albums": None,
                "artist": None,
                "tracks": None}
-
+    # No se neceistan listas encadenadas pues la información solo se va a consultar pero no a alterar 
+    # Por otro lado siempre se añade un album, artista o canción al final de la lista
+    # cosa que no tiene repercusiones de tiempo en un arreglo
     catalog["albums"] = lt.newList('ARRAY_LIST', cmpfunction=compareAlbums)
-    catalog["artist"] = lt.newList('ARRAY_LIST')
-    catalog["tracks"] = lt.newList('ARRAY_LIST')
+    catalog["artists"] = lt.newList('ARRAY_LIST', cmpfunction=compareArtists)
+    catalog["tracks"] = lt.newList('ARRAY_LIST', cmpfunction=compareTracks)
 
     return catalog
 
@@ -59,6 +61,15 @@ def addAlbum(catalog, albumdic):
     lt.addLast(catalog['albums'], neoAlbum)
     return catalog
 
+
+def addArtist(catalog, artistdic):
+    lt.addLast(catalog["artists"], artistdic)
+    return catalog
+
+
+def addTrack(catalog, track):
+    lt.addLast(catalog['tracks'], track)
+    return catalog
 # Funciones para creacion de datos
 
 
@@ -69,6 +80,9 @@ def newAlbum(albumdic):
 
         date_format = dt.strptime(albumdic["release_date"], "%b-%y")
         anio = int(dt.strftime(date_format, "%Y"))
+
+        if anio > 2022:
+            anio = anio - 1000
 
     else:
         try:
@@ -91,7 +105,7 @@ def albumSize(catalog):
 
 
 def artistSize(catalog):
-    return lt.size(catalog['artist'])
+    return lt.size(catalog['artists'])
 
 
 def trackSize(catalog):
@@ -101,8 +115,50 @@ def trackSize(catalog):
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareAlbums(album1, album2):
     return album1["release_date"] < album2["release_date"]
+
+
+def compareArtists(artist1, artist2):
+    if artist1["artist_popularity"] > artist2["artist_popularity"]:
+        return artist1["artist_popularity"] > artist2["artist_popularity"]
+    else:
+        pass
+
+    if artist1["artist_popularity"] == artist2["artist_popularity"]:
+        return artist1["followers"] > artist2["followers"]
+    else:
+        pass
+
+    if artist1["followers"] == artist2["followers"]:
+        return artist1["name"] > artist2["name"]
+    else:
+        pass
+
+
+def compareTracks(track1, track2):
+    if track1["popularity"] > track2["popularity"]:
+        return track1["popularity"] > track2["popularity"]
+    else:
+        pass
+
+    if track1["popularity"] == track2["popularity"]:
+        return track1["duration_ms"] > track2["duration_ms"]
+    else:
+        pass
+
+    if track1["duration_ms"] == track2["duration_ms"]:
+        return track1["name"] > track2["name"]
+    else:
+        pass
 # Funciones de ordenamiento
 
 
 def sortAlbums(catalog):
     sa.sort(catalog['albums'], compareAlbums)
+
+
+def sortArtists(catalog):
+    sa.sort(catalog['artists'], compareArtists)
+
+
+def sortTracks(catalog):
+    sa.sort(catalog['tracks'], compareTracks)

@@ -65,8 +65,8 @@ Por favor antes de continuar carga la información en el catálogo.
 
 
 def loadData():
-    albums = controller.loadData(control)
-    return albums
+    albums, artists, tracks = controller.loadData(control)
+    return albums, artists, tracks
 
 
 control = newController()
@@ -78,10 +78,19 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        albums = loadData()
+        # estas tres variables son numero de tipo int
+        albums, artists, tracks = loadData()
         print("Cargando información de los archivos ....")
-        print(f'Cantidad de albumes cargados: {albums} \n')
-        print(lt.lastElement(control["model"]["albums"]))
+        print(f"Cantidad de albumes cargados: {albums} \n")
+
+        i = 0
+        while i < 3:
+            # Solo sirve si la estructura es 'ARRAY_LIST'
+            print(control['model']['albums'])#['elements'][i]["name"])
+            print('\n')
+            i += 1
+        print(f"Cantidad de artistas cargados: {artists} \n")
+        print(f"Cantidad de canciones cargadas: {tracks} \n")
 
     elif int(inputs[0]) == 2:
         pass
