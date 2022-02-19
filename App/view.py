@@ -83,14 +83,30 @@ while True:
         print("Cargando información de los archivos ....")
         print(f"Cantidad de albumes cargados: {albums} \n")
 
-        i = 0
-        while i < 3:
+        a = 0
+        while a < 3:
             # Solo sirve si la estructura es 'ARRAY_LIST'
-            print(control['model']['albums']['elements'][i]["name"])
+            print(control['model']['albums']['elements'][a])
             print('\n')
-            i += 1
+            a += 1
+
         print(f"Cantidad de artistas cargados: {artists} \n")
+
+        b = 0
+        while b < 3:
+            # Solo sirve si la estructura es 'ARRAY_LIST'
+            print(control['model']['artists']['elements'][b])
+            print('\n')
+            b += 1
+
         print(f"Cantidad de canciones cargadas: {tracks} \n")
+
+        c = 0
+        while c < 3:
+            # Solo sirve si la estructura es 'ARRAY_LIST'
+            print(control['model']['tracks']['elements'][c])
+            print('\n')
+            c += 1
 
     elif int(inputs[0]) == 2:
         pass

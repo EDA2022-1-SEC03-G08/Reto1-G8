@@ -120,37 +120,71 @@ def compareAlbums(album1, album2):
 
 
 def compareArtists(artist1, artist2):
-    if artist1["artist_popularity"] > artist2["artist_popularity"]:
-        return artist1["artist_popularity"] > artist2["artist_popularity"]
+    if float(artist1["artist_popularity"]) > float(artist2["artist_popularity"]):
+        return float(artist1["artist_popularity"]) > float(artist2["artist_popularity"])
     else:
         pass
 
-    if artist1["artist_popularity"] == artist2["artist_popularity"]:
-        return artist1["followers"] > artist2["followers"]
+    if float(artist1["artist_popularity"]) == float(artist2["artist_popularity"]):
+        return float(artist1["followers"]) > float(artist2["followers"])
     else:
         pass
 
-    if artist1["followers"] == artist2["followers"]:
+    if float(artist1["followers"]) == float(artist2["followers"]):
         return artist1["name"] > artist2["name"]
     else:
         pass
 
 
 def compareTracks(track1, track2):
-    if track1["popularity"] > track2["popularity"]:
-        return track1["popularity"] > track2["popularity"]
-    else:
-        pass
+    try:
+        if float(track1["popularity"]) > float(track2["popularity"]):
+            return float(track1["popularity"]) > float(track2["popularity"])
+        else:
+            pass
 
-    if track1["popularity"] == track2["popularity"]:
-        return track1["duration_ms"] > track2["duration_ms"]
-    else:
-        pass
+    except ValueError:
+        if track1["popularity"].strip() == '':
+            track1["popularity"] = 0
 
-    if track1["duration_ms"] == track2["duration_ms"]:
-        return track1["name"] > track2["name"]
-    else:
-        pass
+        if track2["popularity"].strip() == '':
+            track2["popularity"] = 0
+
+        if float(track1["popularity"]) > float(track2["popularity"]):
+            return float(track1["popularity"]) > float(track2["popularity"])
+
+    try:
+
+        if float(track1["popularity"]) == float(track2["popularity"]):
+            return float(track1["duration_ms"]) > float(track2["duration_ms"])
+        else:
+            pass
+
+    except ValueError:
+        if track1["duration_ms"] == '':
+            track1["duration_ms"] = 0
+        
+        if track2["duration_ms"] == '':
+            track2["duration_ms"] = 0
+        
+        if float(track1["popularity"]) == float(track2["popularity"]):
+            return float(track1["duration_ms"]) > float(track2["duration_ms"])
+    try:
+
+        if float(track1["duration_ms"]) == float(track2["duration_ms"]):
+            return track1["name"] > track2["name"]
+        else:
+            pass
+    except ValueError:
+        if track1["duration_ms"] == '':
+            track1["duration_ms"] = 0
+
+        if track2["duration_ms"] == '':
+            track2 ["duration_ms"] = 0
+        
+        if float(track1["duration_ms"]) == float(track2["duration_ms"]):
+            return track1["name"] > track2["name"]
+    
 # Funciones de ordenamiento
 
 
