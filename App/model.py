@@ -45,8 +45,10 @@ def newCatalog():
     catalog = {"albums": None,
                "artist": None,
                "tracks": None}
-    # No se neceistan listas encadenadas pues la información solo se va a consultar pero no a alterar 
-    # Por otro lado siempre se añade un album, artista o canción al final de la lista
+    # No se neceistan listas encadenadas pues la información solo se va a
+    # consultar pero no a alterar por otro lado siempre se añade
+    # un album, artista o canción
+    # al final de la lista
     # cosa que no tiene repercusiones de tiempo en un arreglo
     catalog["albums"] = lt.newList('ARRAY_LIST', cmpfunction=compareAlbums)
     catalog["artists"] = lt.newList('ARRAY_LIST', cmpfunction=compareArtists)

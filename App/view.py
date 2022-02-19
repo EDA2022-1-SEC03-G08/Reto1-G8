@@ -86,7 +86,7 @@ while True:
         i = 0
         while i < 3:
             # Solo sirve si la estructura es 'ARRAY_LIST'
-            print(control['model']['albums'])#['elements'][i]["name"])
+            print(control['model']['albums']['elements'][i]["name"])
             print('\n')
             i += 1
         print(f"Cantidad de artistas cargados: {artists} \n")
