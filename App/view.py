@@ -55,8 +55,7 @@ Por favor antes de continuar carga la información en el catálogo.
 5- Encontrar la canción más popular de un artista
 6- Encontrar la discografia de un artista
 7- Clasificar las canciones con mayor distribución
-8- Seleccionar el tipo de representación de la lista (ARRAY_LIST o LINKED_LIST) donde se quiere cargar el catálogo de música.
-9- Seleccionar el tipo de algoritmo de ordenamiento iterativo (selection, insertion o shell)
+8- Pruebas de carga de datos
 0- Salir
         """)
 
@@ -93,18 +92,14 @@ while True:
     elif int(inputs[0]) == 7:
         pass
     elif int(inputs[0]) == 8:
-        print("""
-            Seleccionar el tipo de representación de la lista 
-            1.(ARRAY_LIST) 
-            2.(LINKED_LIST)
-            """)
-    elif int(inputs[0]) == 9:
-        print("""
-            Seleccionar el tipo de algoritmo de ordenamiento iterativo 
-            1.(selection) 
-            2.(insertion)
-            3.(shell)
-            """)
+        size = input("Indique tamaño de la muestra. Ejm: 5%, 10%, etc...")
+        ttype = input("Indique el tipo de lista usado: ARRAY_LIST o LINKED_LIST")
+        sorter = input("Indique el tidp de algoritmo de ordenamiento: selection, insertion o shell")
+        result = controller.sortArtists(control, int(size), ttype, sorter)
+        delta_time = f"{result[1]:.3f}"
+        sorted_list = result[0]
+        print("Para", size, "elementos, delta tiempo:", str(delta_time))
+
     elif int(inputs[0]) == 0:
         sys.exit(0)
     else:
