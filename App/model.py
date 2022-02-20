@@ -28,9 +28,13 @@ from platform import release
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
+#De lab 4
+from DISClib.Algorithms.Sorting import insertionsort as ins
+from DISClib.Algorithms.Sorting import selectionsort as ses
+#
 from datetime import datetime as dt
 assert cf
-
+import time
 
 """
 Se define la estructura de un catálogo de Spotify.
@@ -194,6 +198,25 @@ def sortAlbums(catalog):
 
 def sortArtists(catalog):
     sa.sort(catalog['artists'], compareArtists)
+
+#TODO: Boffar despues del lab 4:
+def sortArtistslab(catalog, size, ttype, sorter): 
+    sub_list = lt.subList(catalog['artists'], 1, int((size/100)*artistSize(catalog)))
+    start_time = time.getTime()
+    sorted_list = lt.newList(ttype)
+    if sorter.lower() in "shell":
+        sorted_list = sa.sort(sub_list, compareFollowers)
+    elif sorter.lower() in "insertion":
+        sorted_list = ins.sort(sub_list, compareFollowers)
+    else:
+        sorted_list = ses.sort(sub_list, compareFollowers)
+    end_time = time.getTime()
+    delta_time = time.deltaTime(start_time, end_time)
+    return sorted_list, delta_time
+
+def compareFollowers(artist1, artist2):
+    return (float(artist1['followers']) < float(artist2['followers']))
+
 
 
 def sortTracks(catalog):
