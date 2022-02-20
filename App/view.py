@@ -95,7 +95,7 @@ while True:
         size = input("Indique tamaño de la muestra. Ejm: 5%, 10%, etc...")
         ttype = input("Indique el tipo de lista usado: ARRAY_LIST o LINKED_LIST")
         sorter = input("Indique el tidp de algoritmo de ordenamiento: selection, insertion o shell")
-        result = controller.sortArtists(control, int(size), ttype, sorter)
+        result = controller.sortArtists(catalog, int(size), ttype, sorter)
         delta_time = f"{result[1]:.3f}"
         sorted_list = result[0]
         print("Para", size, "elementos, delta tiempo:", str(delta_time))
