@@ -96,10 +96,15 @@ while True:
         size = input("Indique tamaño de la muestra. Ejm: 5%, 10%, etc...\n")
         ttype = input("Indique el tipo de lista usado: ARRAY_LIST o LINKED_LIST\n")
         sorter = input("Indique el tidp de algoritmo de ordenamiento: selection, insertion o shell\n")
-        result = controller.sortArtistslab(catalog['model'], int(size), ttype, sorter)
+        labCatalog = {'artists': None}
+        labCatalog['artists'] = lt.newList(ttype)
+        controller.loadArtists(labCatalog)
+        result = controller.sortArtistslab(labCatalog, int(size), ttype, sorter)
         delta_time = f"{result[1]:.3f}"
         sorted_list = result[0]
         print("Para", size + "%", "elementos, delta tiempo:", str(delta_time))
+        print(sorted_list["type"])
+        print(lt.size(sorted_list))
     elif int(inputs[0]) == 0:
         sys.exit(0)
     else:

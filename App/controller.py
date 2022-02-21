@@ -82,5 +82,5 @@ def sortTracks(catalog):
     model.sortTracks(catalog)
 
 def sortArtistslab(catalog, size, ttype, sorter):
-    model.sortArtistslab(catalog, size, ttype, sorter)
+    return model.sortArtistslab(catalog, size, ttype, sorter)
 # Funciones de consulta sobre el catálogo
