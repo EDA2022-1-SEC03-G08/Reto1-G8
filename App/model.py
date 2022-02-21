@@ -23,8 +23,10 @@
  *
  * Dario Correal - Version inicial
  """
+
 from optparse import TitledHelpFormatter
 from platform import release
+import time
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
@@ -34,7 +36,6 @@ from DISClib.Algorithms.Sorting import selectionsort as ses
 #
 from datetime import datetime as dt
 assert cf
-import time
 
 """
 Se define la estructura de un catálogo de Spotify.
@@ -45,66 +46,77 @@ y otra para las canciones.
 
 # Construccion de modelos
 def newCatalog():
+    """
+    Inicializa el catálogo de tracks. Crea una lista vacia para guardar
+    todos los tracks, adicionalmente, crea una lista vacia para los artistas,
+    una lista vacia para los albumess. Retorna el catalogo inicializado.
+    """
 
-    catalog = {"albums": None,
-               "artist": None,
-               "tracks": None}
-    # No se neceistan listas encadenadas pues la información solo se va a
-    # consultar pero no a alterar por otro lado siempre se añade
-    # un album, artista o canción
-    # al final de la lista
-    # cosa que no tiene repercusiones de tiempo en un arreglo
-    catalog["albums"] = lt.newList('ARRAY_LIST', cmpfunction=compareAlbums)
-    catalog["artists"] = lt.newList('ARRAY_LIST', cmpfunction=compareArtists)
-    catalog["tracks"] = lt.newList('ARRAY_LIST', cmpfunction=compareTracks)
+    catalog = {'albums': None,
+               'artists': None,
+               'tracks': None}
 
+    catalog['albums'] = lt.newList('ARRAY_LIST')
+    catalog['artists'] = lt.newList('SINGLE_LINKED')
+    catalog['tracks'] = lt.newList('SINGLE_LINKED')
     return catalog
 
 
 # Funciones para agregar informacion al catalogo
-def addAlbum(catalog, albumdic):
-    neoAlbum = newAlbum(albumdic)
+def addNewAlbum(catalog, album):
+    neoAlbum = newAlbum(album)
     lt.addLast(catalog['albums'], neoAlbum)
     return catalog
 
 
-def addArtist(catalog, artistdic):
-    lt.addLast(catalog["artists"], artistdic)
+def addNewArtist(catalog, artist):
+    lt.addLast(catalog['artists'], artist)
     return catalog
 
 
-def addTrack(catalog, track):
+def addNewTrack(catalog, track):
     lt.addLast(catalog['tracks'], track)
     return catalog
+
 # Funciones para creacion de datos
 
 
-def newAlbum(albumdic):
-    if albumdic["release_date"].startswith(("Jan", "Feb", "Mar", "Apr",
-                                            "May", "Jun", "Jul", "Aug",
-                                            "Sep", "Oct", "Nov", "Dec")):
 
-        date_format = dt.strptime(albumdic["release_date"], "%b-%y")
-        anio = int(dt.strftime(date_format, "%Y"))
 
-        if anio > 2022:
-            anio = anio - 1000
+def newAlbum(album1):
+    album = {'name': "", 'release_date': "", 'avalaible_markets': None,
+             'total_tracks': None, 'type': "", 'artists': None,
+             'external_urls': "", 'images': ""}
 
-    else:
-        try:
-            date_format = dt.strptime(albumdic["release_date"], "%Y-%m-%d")
-            anio = int(dt.strftime(date_format, "%Y"))
+    album['name'] = album1['name']
+    album['release_date'] = album1['release_date']
+    album['available_markets'] = album1['available_markets']
+    album['total_tracks'] = album1['total_tracks']
+    album['type'] = album1['album_type']
+    album['artists'] = lt.newList('ARRAY_LIST')
+    album['external_urls'] = album1['external_urls']
+    album['images'] = album1['images']
+    return album
 
-        except ValueError:
-            date_format = dt.strptime(albumdic["release_date"], "%Y")
-            anio = int(dt.strftime(date_format, "%Y"))
 
-    albumdic["release_date"] = anio
-    return albumdic
+def newArtist(artist1):
+    artist = {'name': "", 'popularity': "", 'genres': "",
+              'followers': "", 'tracks': None}
+    artist['name'] = artist1['name']
+    artist['popularity'] = artist1['popularity']
+    artist['genres'] = lt.newList('ARRAY_LIST')
+    return artist
+
+def newTrack(track1):
+    track = {'name': "", 'popularity': "", 'genres': "",
+              'album_id': "", 'artist_id': None}
+    track['name'] = track1['name']
+    track['popularity'] = track1['popularity']
+    track['artist_id'] = lt.newList('ARRAY_LIST')
+    track['album_id'] = track1['album_id']
+    return track
+
 # Funciones de consulta
-
-# FUnciones de inidcadores de tamaño
-
 
 def albumSize(catalog):
     return lt.size(catalog['albums'])
@@ -202,7 +214,7 @@ def sortArtists(catalog):
 #TODO: Boffar despues del lab 4:
 def sortArtistslab(catalog, size, ttype, sorter): 
     sub_list = lt.subList(catalog['artists'], 1, int((size/100)*artistSize(catalog)))
-    start_time = time.getTime()
+    start_time = dt.getTime()
     sorted_list = lt.newList(ttype)
     if sorter.lower() in "shell":
         sorted_list = sa.sort(sub_list, compareFollowers)
@@ -210,8 +222,8 @@ def sortArtistslab(catalog, size, ttype, sorter):
         sorted_list = ins.sort(sub_list, compareFollowers)
     else:
         sorted_list = ses.sort(sub_list, compareFollowers)
-    end_time = time.getTime()
-    delta_time = time.deltaTime(start_time, end_time)
+    end_time = dt.getTime()
+    delta_time = dt.deltaTime(start_time, end_time)
     return sorted_list, delta_time
 
 def compareFollowers(artist1, artist2):

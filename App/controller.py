@@ -29,17 +29,7 @@ import csv
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
-
-def newController():
-    """
-    Crea una instancia del modelo
-    """
-    control = {'model': None}
-    control['model'] = model.newCatalog()
-    return control
-
-
-# Inicialización del Catálogo de libros
+# Inicialización del Catálogo
 
 def newController():
     """
@@ -62,7 +52,7 @@ def loadData(control):
 
 
 def loadAlbums(catalog):
-    albumsfile = cf.data_dir + 'Spotify/spotify-albums-utf8-5pct.csv'
+    albumsfile = cf.data_dir + 'spotify-albums-utf8-5pct.csv'
     input_file = csv.DictReader(open(albumsfile, encoding='utf-8'))
     for album in input_file:
         model.addNewAlbum(catalog, album)
@@ -70,14 +60,14 @@ def loadAlbums(catalog):
 
 
 def loadArtists(catalog):
-    artistfile = cf.data_dir + 'Spotify/spotify-artists-utf8-5pct.csv'
+    artistfile = cf.data_dir + 'spotify-artists-utf8-5pct.csv'
     input_file = csv.DictReader(open(artistfile, encoding='utf-8'))
     for artist in input_file:
         model.addNewArtist(catalog, artist)
     return model.artistSize(catalog)
 
 def loadTracks(catalog):
-    trackfile = cf.data_dir + 'Spotify/spotify-tracks-utf8-5pct.csv'
+    trackfile = cf.data_dir + 'spotify-tracks-utf8-5pct.csv'
     input_file = csv.DictReader(open(trackfile, encoding='utf-8'))
     for track in input_file:
         model.addNewTrack(catalog, track)
@@ -91,4 +81,6 @@ def sortTracks(catalog):
     """
     model.sortTracks(catalog)
 
+def sortArtistslab(catalog, size, ttype, sorter):
+    model.sortArtistslab(catalog, size, ttype, sorter)
 # Funciones de consulta sobre el catálogo
