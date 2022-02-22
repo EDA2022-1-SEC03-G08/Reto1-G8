@@ -76,38 +76,40 @@ def printInfo(control):
     """
     Esta función se encarga de imprimir la información de los primeros
     y ultimos tres elementos de cada categoria (album, artista, canción).
+
+    Esto funciona establemente cuando las tres listas son de tipo ARRAY.
     """
 
     print("Primeros tres albumes \n")
-    print(lt.getElement(control['model']['albums'], 1))
-    print(lt.getElement(control['model']['albums'], 2))
-    print(lt.getElement(control['model']['albums'], 3))
-    print("\n")
+    for i in range(1,4):
+        print(lt.getElement(control['model']['albums'], i))
+        print('\n')
+
     print("Ultimos tres albumes \n")
-    print(lt.getElement(control['model']['albums'], -2))
-    print(lt.getElement(control['model']['albums'], -1))
-    print(lt.getElement(control['model']['albums'], 0))
-    print("\n")
+    for i in range(-2,1):
+        print(lt.getElement(control['model']['albums'], i))
+        print('\n')
+
     print("Primeros tres artistas \n")
-    print(lt.getElement(control['model']['artists'], 1))
-    print(lt.getElement(control['model']['artists'], 2))
-    print(lt.getElement(control['model']['artists'], 3))
-    print("\n")
+    for i in range(1,4):
+        print(lt.getElement(control['model']['artists'], i))
+        print('\n')
+
     print("Ultimos tres artistas \n")
-    print(lt.getElement(control['model']['artists'], -2))
-    print(lt.getElement(control['model']['artists'], -1))
-    print(lt.getElement(control['model']['artists'], 0))
-    print("\n")
+    for i in range(-2,1):
+        print(lt.getElement(control['model']['artists'], i))
+        print('\n')
+
     print("Primeras tres canciones \n")
-    print(lt.getElement(control['model']['tracks'], 1))
-    print(lt.getElement(control['model']['tracks'], 2))
-    print(lt.getElement(control['model']['tracks'], 3))
-    print("\n")
+    for i in range(1,4):
+        print(lt.getElement(control['model']['tracks'], i))
+        print('\n')
+
     print("Ultimas tres canciones \n")
-    print(lt.getElement(control['model']['tracks'], -2))
-    print(lt.getElement(control['model']['tracks'], -1))
-    print(lt.getElement(control['model']['tracks'], 0))
-    print("\n")
+    for i in range(-2,1):
+        print(lt.getElement(control['model']['tracks'], i))
+        print('\n')
+
 
 
 control = newController()
@@ -121,7 +123,7 @@ while True:
     if int(inputs[0]) == 1:
 
         # estas tres variables son numero de tipo int
-        
+
         albums, artists, tracks = loadData()
 
         #este apartado se encarga de informar al usuario cuantos
