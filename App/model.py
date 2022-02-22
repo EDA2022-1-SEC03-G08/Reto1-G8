@@ -27,7 +27,7 @@ from optparse import TitledHelpFormatter
 from platform import release
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import mergesort as sa
 from datetime import datetime as dt
 assert cf
 
@@ -46,7 +46,7 @@ def newCatalog():
                "artist": None,
                "tracks": None}
     # No se neceistan listas encadenadas pues la información solo se va a
-    # consultar pero no a alterar por otro lado siempre se añade
+    # consultar pero no a alterar. Por otro lado siempre se añade
     # un album, artista o canción
     # al final de la lista
     # cosa que no tiene repercusiones de tiempo en un arreglo
@@ -65,11 +65,21 @@ def addAlbum(catalog, albumdic):
 
 
 def addArtist(catalog, artistdic):
-    lt.addLast(catalog["artists"], artistdic)
+    neoArtist = newArtist(artistdic)
+    for album in lt.iterator(catalog["albums"]):
+        artists = (album["artist_id"].strip()).lower()
+        if neoArtist['id'].lower() in artists:
+            if lt.isPresent(album['artist_dic'], neoArtist) == 0:
+                lt.addLast(album['artist_dic'], neoArtist)
+    lt.addLast(catalog["artists"], neoArtist)
     return catalog
 
 
 def addTrack(catalog, track):
+    for artist in lt.iterator(catalog['artists']):
+        tracks = (track['artists_id'].strip()).lower()
+        if artist['id'].lower() in tracks:
+            lt.addLast(artist["all_tracks"], track)
     lt.addLast(catalog['tracks'], track)
     return catalog
 # Funciones para creacion de datos
@@ -84,7 +94,7 @@ def newAlbum(albumdic):
         anio = int(dt.strftime(date_format, "%Y"))
 
         if anio > 2022:
-            anio = anio - 1000
+            anio = anio - 100
 
     else:
         try:
@@ -96,7 +106,15 @@ def newAlbum(albumdic):
             anio = int(dt.strftime(date_format, "%Y"))
 
     albumdic["release_date"] = anio
+    albumdic['artist_dic'] = lt.newList('ARRAY_LIST')
+
     return albumdic
+
+
+def newArtist(artistdic):
+    artistdic["all_tracks"] = lt.newList("ARRAY_LIST", cmpfunction=compareTracks)
+
+    return artistdic
 # Funciones de consulta
 
 # FUnciones de inidcadores de tamaño
@@ -163,10 +181,10 @@ def compareTracks(track1, track2):
     except ValueError:
         if track1["duration_ms"] == '':
             track1["duration_ms"] = 0
-        
+
         if track2["duration_ms"] == '':
             track2["duration_ms"] = 0
-        
+
         if float(track1["popularity"]) == float(track2["popularity"]):
             return float(track1["duration_ms"]) > float(track2["duration_ms"])
     try:
@@ -175,16 +193,17 @@ def compareTracks(track1, track2):
             return track1["name"] > track2["name"]
         else:
             pass
+
     except ValueError:
         if track1["duration_ms"] == '':
             track1["duration_ms"] = 0
 
         if track2["duration_ms"] == '':
-            track2 ["duration_ms"] = 0
-        
+            track2["duration_ms"] = 0
+
         if float(track1["duration_ms"]) == float(track2["duration_ms"]):
             return track1["name"] > track2["name"]
-    
+
 # Funciones de ordenamiento
 
 

@@ -65,8 +65,49 @@ Por favor antes de continuar carga la información en el catálogo.
 
 
 def loadData():
+    """
+    Función encargada de entregar la información de carga de los archivos.
+    """
     albums, artists, tracks = controller.loadData(control)
     return albums, artists, tracks
+
+
+def printInfo(control):
+    """
+    Esta función se encarga de imprimir la información de los primeros
+    y ultimos tres elementos de cada categoria (album, artista, canción).
+    """
+
+    print("Primeros tres albumes \n")
+    print(lt.getElement(control['model']['albums'], 1))
+    print(lt.getElement(control['model']['albums'], 2))
+    print(lt.getElement(control['model']['albums'], 3))
+    print("\n")
+    print("Ultimos tres albumes \n")
+    print(lt.getElement(control['model']['albums'], -2))
+    print(lt.getElement(control['model']['albums'], -1))
+    print(lt.getElement(control['model']['albums'], 0))
+    print("\n")
+    print("Primeros tres artistas \n")
+    print(lt.getElement(control['model']['artists'], 1))
+    print(lt.getElement(control['model']['artists'], 2))
+    print(lt.getElement(control['model']['artists'], 3))
+    print("\n")
+    print("Ultimos tres artistas \n")
+    print(lt.getElement(control['model']['artists'], -2))
+    print(lt.getElement(control['model']['artists'], -1))
+    print(lt.getElement(control['model']['artists'], 0))
+    print("\n")
+    print("Primeras tres canciones \n")
+    print(lt.getElement(control['model']['tracks'], 1))
+    print(lt.getElement(control['model']['tracks'], 2))
+    print(lt.getElement(control['model']['tracks'], 3))
+    print("\n")
+    print("Ultimas tres canciones \n")
+    print(lt.getElement(control['model']['tracks'], -2))
+    print(lt.getElement(control['model']['tracks'], -1))
+    print(lt.getElement(control['model']['tracks'], 0))
+    print("\n")
 
 
 control = newController()
@@ -78,35 +119,20 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+
         # estas tres variables son numero de tipo int
+        
         albums, artists, tracks = loadData()
-        print("Cargando información de los archivos ....")
+
+        #este apartado se encarga de informar al usuario cuantos
+        #elementos fueron cargados e incluye la función de imprimir
+        #la información de cada lista.
+
+        print("Cargando información de los archivos .... \n")
+        printInfo(control)
         print(f"Cantidad de albumes cargados: {albums} \n")
-
-        a = 0
-        while a < 3:
-            # Solo sirve si la estructura es 'ARRAY_LIST'
-            print(control['model']['albums']['elements'][a])
-            print('\n')
-            a += 1
-
         print(f"Cantidad de artistas cargados: {artists} \n")
-
-        b = 0
-        while b < 3:
-            # Solo sirve si la estructura es 'ARRAY_LIST'
-            print(control['model']['artists']['elements'][b])
-            print('\n')
-            b += 1
-
         print(f"Cantidad de canciones cargadas: {tracks} \n")
-
-        c = 0
-        while c < 3:
-            # Solo sirve si la estructura es 'ARRAY_LIST'
-            print(control['model']['tracks']['elements'][c])
-            print('\n')
-            c += 1
 
     elif int(inputs[0]) == 2:
         pass
