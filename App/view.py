@@ -40,8 +40,8 @@ def newController():
     control = controller.newController()
     return control
 
-    #control = {'model': catalog}
-    #control = {'model': {'albums: []
+    # control = {'model': catalog}
+    # control = {'model': {'albums: []
     #                     'artist': []
     #                     'tracks': []
     #                    }
@@ -81,35 +81,34 @@ def printInfo(control):
     """
 
     print("Primeros tres albumes \n")
-    for i in range(1,4):
+    for i in range(1, 4):
         print(lt.getElement(control['model']['albums'], i))
         print('\n')
 
     print("Ultimos tres albumes \n")
-    for i in range(-2,1):
+    for i in range(-2, 1):
         print(lt.getElement(control['model']['albums'], i))
         print('\n')
 
     print("Primeros tres artistas \n")
-    for i in range(1,4):
+    for i in range(1, 4):
         print(lt.getElement(control['model']['artists'], i))
         print('\n')
 
     print("Ultimos tres artistas \n")
-    for i in range(-2,1):
+    for i in range(-2, 1):
         print(lt.getElement(control['model']['artists'], i))
         print('\n')
 
     print("Primeras tres canciones \n")
-    for i in range(1,4):
+    for i in range(1, 4):
         print(lt.getElement(control['model']['tracks'], i))
         print('\n')
 
     print("Ultimas tres canciones \n")
-    for i in range(-2,1):
+    for i in range(-2, 1):
         print(lt.getElement(control['model']['tracks'], i))
         print('\n')
-
 
 
 control = newController()
@@ -126,9 +125,9 @@ while True:
 
         albums, artists, tracks = loadData()
 
-        #este apartado se encarga de informar al usuario cuantos
-        #elementos fueron cargados e incluye la función de imprimir
-        #la información de cada lista.
+        # este apartado se encarga de informar al usuario cuantos
+        # elementos fueron cargados e incluye la función de imprimir
+        # la información de cada lista.
 
         print("Cargando información de los archivos .... \n")
         printInfo(control)
