@@ -104,6 +104,7 @@ while True:
         sorted_list = result[0]
         print("Para", size + "%", "elementos, delta tiempo:", str(delta_time))
         print(sorted_list["type"])
+        print("Tamaño de lista:")
         print(lt.size(sorted_list))
     elif int(inputs[0]) == 0:
         sys.exit(0)
