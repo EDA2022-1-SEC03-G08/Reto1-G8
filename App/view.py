@@ -99,7 +99,7 @@ while True:
         labCatalog = {'artists': None}
         labCatalog['artists'] = lt.newList(ttype)
         controller.loadArtists(labCatalog)
-        result = controller.sortArtistslab(labCatalog, int(size), ttype, sorter)
+        result = controller.sortArtistslab(labCatalog, float(size), ttype, sorter)
         delta_time = f"{result[1]:.3f}"
         sorted_list = result[0]
         print("Para", size + "%", "elementos, delta tiempo:", str(delta_time))
