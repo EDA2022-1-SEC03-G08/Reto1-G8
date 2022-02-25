@@ -30,11 +30,11 @@ import time
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
-#De lab 4 borrar!!!
+#TODO: De lab 4 borrar!!!
 from DISClib.Algorithms.Sorting import insertionsort as ins
 from DISClib.Algorithms.Sorting import selectionsort as ses
-from DISClib.DataStructures import arraylist as alt
-from DISClib.DataStructures import singlelinkedlist as slt
+from DISClib.Algorithms.Sorting import mergesort as mes
+from DISClib.Algorithms.Sorting import quicksort as qus
 #
 from datetime import datetime as dt
 assert cf
@@ -213,17 +213,26 @@ def sortAlbums(catalog):
 def sortArtists(catalog):
     sa.sort(catalog['artists'], compareArtists)
 
-#TODO: Boffar despues del lab 4:
+#TODO: Borrar despues del lab 4:
 def sortArtistslab(catalog, size, ttype, sorter):
     sub_list = lt.subList(catalog['artists'], 1, int((size/100)*artistSize(catalog)))
     start_time = time.time()
     sorted_list = lt.newList(ttype)
     if sorter.lower() in "shell":
+        print("Sorting con shell...")
         sorted_list = sa.sort(sub_list, compareFollowers)
     elif sorter.lower() in "insertion":
+        print("Sorting con insertion...")
         sorted_list = ins.sort(sub_list, compareFollowers)
-    else:
+    elif sorter.lower() in "selection":
+        print("Sorting con selection...")
         sorted_list = ses.sort(sub_list, compareFollowers)
+    elif sorter.lower() in "merge":
+        print("Sorting con merge...")
+        sorted_list = mes.sort(sub_list, compareFollowers)
+    else:
+        print("Sorting con quick...")
+        sorted_list = qus.sort(sub_list, compareFollowers)
     end_time = time.time()
     delta_time = end_time - start_time
     return sorted_list, delta_time

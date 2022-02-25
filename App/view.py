@@ -95,7 +95,7 @@ while True:
     elif int(inputs[0]) == 8:
         size = input("Indique tamaño de la muestra. Ejm: 5%, 10%, etc...\n")
         ttype = input("Indique el tipo de lista usado: ARRAY_LIST o LINKED_LIST\n")
-        sorter = input("Indique el tidp de algoritmo de ordenamiento: selection, insertion o shell\n")
+        sorter = input("Indique el tidp de algoritmo de ordenamiento: selection, insertion, shell, merge o quick\n")
         labCatalog = {'artists': None}
         labCatalog['artists'] = lt.newList(ttype)
         controller.loadArtists(labCatalog)
