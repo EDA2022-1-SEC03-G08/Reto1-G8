@@ -48,15 +48,14 @@ def loadData(control):
     artists = loadArtist(catalog)
     tracks = loadTracks(catalog)
     sortAlbums(catalog)
-    sortArtists(catalog)
     sortTracks(catalog)
-
+    sortArtists(catalog) 
     return albums, artists, tracks
 
 
 def loadAlbums(catalog):
 
-    albumsfile = cf.data_dir + 'spotify-albums-utf8-20pct.csv'
+    albumsfile = cf.data_dir + 'spotify-albums-utf8-5pct.csv'
     input_file_al = csv.DictReader(open(albumsfile, encoding='utf-8'))
     for album in input_file_al:
         model.addAlbum(catalog, album)
@@ -64,7 +63,7 @@ def loadAlbums(catalog):
 
 
 def loadArtist(catalog):
-    artistsfile = cf.data_dir + 'spotify-artists-utf8-20pct.csv'
+    artistsfile = cf.data_dir + 'spotify-artists-utf8-5pct.csv'
     input_file_ar = csv.DictReader(open(artistsfile, encoding='utf-8'))
     for artist in input_file_ar:
         model.addArtist(catalog, artist)
@@ -72,7 +71,7 @@ def loadArtist(catalog):
 
 
 def loadTracks(catalog):
-    tracksfile = cf.data_dir + 'spotify-tracks-utf8-20pct.csv'
+    tracksfile = cf.data_dir + 'spotify-tracks-utf8-5pct.csv'
     input_file_tr = csv.DictReader(open(tracksfile, encoding='utf-8'))
     for track in input_file_tr:
         model.addTrack(catalog, track)
@@ -97,3 +96,6 @@ def albumesPorAnio(control, anio_o, anio_f):
 
     albums = model.albumesPorAnio(control['model'], anio_o, anio_f)
     return albums
+
+def getTopArtists(control, topN):
+    return model.getTopArtists(control["model"], topN)

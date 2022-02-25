@@ -1,4 +1,5 @@
-﻿import config as cf
+﻿from re import I
+import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
@@ -127,6 +128,13 @@ def printAlbumsPorAnio(albums, anio_o, anio_f):
     else:
         print("No hay albumes en estos periodos")
 
+def printArtista(name, popularity, followers, genres, topSong):
+    print("\n")
+    print("Nombre: " + name + "\n")
+    print("Popularidad: " + popularity + "\n")
+    print("Followers: " + followers + "\n")
+    print("Generos: " + genres + "\n")
+    print("Cancion referente: " + topSong + "\n")
 
 """
 Menu principal
@@ -157,7 +165,42 @@ while True:
         printAlbumsPorAnio(albums, anio_o, anio_f)
 
     elif int(inputs[0]) == 3:
-        pass
+
+        topN = int(input("Ingrese el numero de artistas a encontrar:\n"))
+        #Se busca cada elemento segun su posicion en la lista ya organizada y se
+        #Imprime la info por cada artista
+        topArtistas = controller.getTopArtists(control,topN)
+        print("Los primeros y ultimos 3 artistas más populares en el top" + str(topN) + ":")
+        con = 0
+        numN = topN
+        while numN > 0 and con < 3:
+            artistN = lt.getElement(topArtistas, con + 1)
+            #Se busca la track mas popular en la lista de tracks del artista
+            # Resulta O(1) ya que la lista iterada es notablemente menor que
+            # n total de datos
+            nombreCancion = ""
+            for el in artistN["all_tracks"]["elements"]:
+                if el["id"] == artistN["track_id"]:
+                    nombreCancion = el["name"]
+                    break
+            printArtista(artistN["name"], artistN["artist_popularity"], artistN["followers"], artistN["genres"], nombreCancion)
+            numN -= 1
+            con += 1
+        if numN < 3:
+            con = numN
+            numN = 3
+        numN += 1
+        while con > 0:
+            artistN = lt.getElement(topArtistas, numN)
+            nombreCancion = ""
+            for el in artistN["all_tracks"]["elements"]:
+                if el["id"] == artistN["track_id"]:
+                    nombreCancion = el["name"]
+                    break
+            printArtista(artistN["name"], artistN["artist_popularity"], artistN["followers"], artistN["genres"], nombreCancion)
+            numN += 1
+            con -= 1
+
     elif int(inputs[0]) == 4:
         pass
     elif int(inputs[0]) == 5:

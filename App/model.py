@@ -43,7 +43,7 @@ y otra para las canciones.
 def newCatalog():
 
     catalog = {"albums": None,
-               "artist": None,
+               "artists": None,
                "tracks": None}
     # No se neceistan listas encadenadas pues la información solo se va a
     # consultar pero no a alterar. Por otro lado siempre se añade
@@ -128,6 +128,15 @@ def albumesPorAnio(catalog, anio_o, anio_f):
         if (album['release_date'] >= anio_o) and (album['release_date'] <= anio_f):
             lt.addLast(lista_albums, album)
     return lista_albums
+
+
+def getTopArtists(list, topN):
+    artistas = list["artists"]
+    lista_artistas = lt.newList("ARRAY_LIST")
+    for pos in range(topN):
+        lt.addLast(lista_artistas, lt.getElement(artistas, pos+1))
+    return lista_artistas
+
 # FUnciones de inidcadores de tamaño
 
 
