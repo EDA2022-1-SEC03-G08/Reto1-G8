@@ -113,6 +113,42 @@ def printInfo(control):
 
 control = newController()
 
+
+def printAlbumsPorAnio(albums, anio_o, anio_f):
+    size = lt.size(albums)
+    if size:
+        print(f"Estos son los albumes entre {anio_o} y {anio_f}: \n")
+        print(f"Total de albums encontrados: {size} \n")
+        print("Primeros tres elementos:\n")
+        for i in range(1, 4):
+            album = lt.getElement(albums, i)
+            artist_dic = album['artist_dic']
+            artist = []
+            for artistName in lt.iterator(artist_dic):
+                artist.append(artistName['name'])
+            print(("Nombre: " + album['name'] +
+                   ", Fecha publicación: " + str(album['release_date']) +
+                   ", Tipo: " + album['album_type'] +
+                   ", Artista: " + str(artist) + album['artist_id'] +
+                   ", Total de canciones: " + album['total_tracks']))
+        print("\n")
+        print("Ultimos tres alementos:\n")
+        for i in range(-2, 1):
+            album = lt.getElement(albums, i)
+            artist_dic = album['artist_dic']
+            artist = []
+            for artistName in lt.iterator(artist_dic):
+                artist.append(artistName['name'])
+            print(("Nombre: " + album['name'] +
+                   ", Fecha publicación: " + str(album['release_date']) +
+                   ", Tipo: " + album['album_type'] +
+                   ", Artista: " + str(artist) + album['artist_id'] +
+                   ", Total de canciones: " + album['total_tracks']))
+
+    else:
+        print("No hay albumes en estos periodos")
+
+
 """
 Menu principal
 """
@@ -136,7 +172,11 @@ while True:
         print(f"Cantidad de canciones cargadas: {tracks} \n")
 
     elif int(inputs[0]) == 2:
-        pass
+        anio_o = int(input("Ingrese año inicial de busqueda:\n"))
+        anio_f = int(input("Ingrese año final de busqueda:\n"))
+        albums = controller.albumesPorAnio(control, anio_o, anio_f)
+        printAlbumsPorAnio(albums, anio_o, anio_f)
+
     elif int(inputs[0]) == 3:
         pass
     elif int(inputs[0]) == 4:

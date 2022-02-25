@@ -117,6 +117,17 @@ def newArtist(artistdic):
     return artistdic
 # Funciones de consulta
 
+
+def albumesPorAnio(catalog, anio_o, anio_f):
+    """
+    retorna una lista de albumes en in periodo de tiempo
+    """
+    albums = catalog['albums']
+    lista_albums = lt.newList("ARRAY_LIST")
+    for album in lt.iterator(albums):
+        if (album['release_date'] >= anio_o) and (album['release_date'] <= anio_f):
+            lt.addLast(lista_albums, album)
+    return lista_albums
 # FUnciones de inidcadores de tamaño
 
 
