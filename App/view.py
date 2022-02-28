@@ -72,42 +72,200 @@ def loadData():
     return albums, artists, tracks
 
 
-def printInfo(control):
+def printAlbumsInfo(control):
     """
     Esta función se encarga de imprimir la información de los primeros
     y ultimos tres elementos de cada categoria (album, artista, canción).
 
     Esto funciona establemente cuando las tres listas son de tipo ARRAY.
     """
-
-    print("Primeros tres albumes \n")
+    print("===================="*7)
+    print("Primeros tres albumes")
+    print("===================="*7)
     for i in range(1, 4):
-        print(lt.getElement(control['model']['albums'], i))
-        print('\n')
 
-    print("Ultimos tres albumes \n")
+        album = lt.getElement(control['model']['albums'], i)
+        name = album['name']
+        release_date = album['release_date']
+        artistas = []
+        rev_tracks = []
+        total_tracks = album['total_tracks']
+        album_type = album['album_type']
+        external_url = album['external_urls']
+
+        for artist in lt.iterator(album['artist_dic']):
+            artistas.append(artist['name'])
+            for track in lt.iterator(artist['all_tracks']):
+                if album['track_id'].lower() == track['id'].lower():
+                    rev_tracks.append(track['name'])
+
+        if len(artistas) == 0:
+            artistas = "No hay info"
+        if len(rev_tracks) == 0:
+            rev_tracks = "No hay info"
+
+        print(f"||Nombre: {name}\n  "
+              f"||Fecha publicación: {release_date}\n  "
+              f"||Artistas: {artistas}\n  "
+              f"||Canción relevante: {rev_tracks}\n  "
+              f"||Canciones totales: {total_tracks}\n  "
+              f"||Tipo del album: {album_type}\n  "
+              f"||Urls externos: {external_url}||")
+
+        print('\n')
+    print("===================="*7)
+    print("Ultimos tres albumes")
+    print("===================="*7)
     for i in range(-2, 1):
-        print(lt.getElement(control['model']['albums'], i))
+        album = lt.getElement(control['model']['albums'], i)
+        name = album['name']
+        release_date = album['release_date']
+        artistas = []
+        rev_tracks = []
+        total_tracks = album['total_tracks']
+        album_type = album['album_type']
+        external_url = album['external_urls']
+
+        for artist in lt.iterator(album['artist_dic']):
+            artistas.append(artist['name'])
+            for track in lt.iterator(artist['all_tracks']):
+                if album['track_id'].lower() == track['id'].lower():
+                    rev_tracks.append(track['name'])
+
+        if len(artistas) == 0:
+            artistas = "No hay info"
+        if len(rev_tracks) == 0:
+            rev_tracks = "No hay info"
+
+        print(f"||Nombre: {name}\n  "
+              f"||Fecha publicación: {release_date}\n  "
+              f"||Artistas: {artistas}\n  "
+              f"||Canción relevante: {rev_tracks}\n  "
+              f"||Canciones totales: {total_tracks}\n  "
+              f"||Tipo del album: {album_type}\n  "
+              f"||Urls externos: {external_url}||  ")
+
         print('\n')
 
-    print("Primeros tres artistas \n")
+
+def printArtistInfo(control):
+    print("===================="*7)
+    print("Primeros tres artistas")
+    print("===================="*7)
     for i in range(1, 4):
-        print(lt.getElement(control['model']['artists'], i))
-        print('\n')
 
-    print("Ultimos tres artistas \n")
+        artist = lt.getElement(control['model']['artists'], i)
+        name = artist['name']
+        popularity = artist['artist_popularity']
+        followers = artist['followers']
+        genres = artist['genres']
+        rev_tracks = []
+        for track in lt.iterator(artist['all_tracks']):
+            if artist['track_id'].lower() == track['id'].lower():
+                rev_tracks.append(track['name'])
+        if len(genres) == 0:
+            genres = "No hay generos asociados"
+        if len(rev_tracks) == 0:
+            rev_tracks = "No se encontro la canción relevante"
+
+        print(f"||Nombre: {name}\n  "
+              f"||Popularidad: {popularity}\n  "
+              f"||Seguidores: {followers}\n  "
+              f"||Canción relevante: {rev_tracks}\n  "
+              f"||Generos: {genres}||")
+
+        print('\n')
+    print("===================="*7)
+    print("Ultimos tres artistas")
+    print("===================="*7)
     for i in range(-2, 1):
-        print(lt.getElement(control['model']['artists'], i))
+
+        artist = lt.getElement(control['model']['artists'], i)
+        name = artist['name']
+        popularity = artist['artist_popularity']
+        followers = artist['followers']
+        genres = artist['genres']
+        rev_tracks = []
+        for track in lt.iterator(artist['all_tracks']):
+            if artist['track_id'].lower() == track['id'].lower():
+                rev_tracks.append(track['name'])
+
+        if len(genres) == 0:
+            genres = "No hay generos asociados"
+        elif genres[0] == []:
+            genres = "No hay generos asociados"
+        if len(rev_tracks) == 0:
+            rev_tracks = "No se encontro la canción relevante"
+
+        print(f"||Nombre: {name}\n  "
+              f"||Popularidad: {popularity}\n  "
+              f"||Seguidores: {followers}\n  "
+              f"||Canción relevante: {rev_tracks}\n  "
+              f"||Generos: {genres}||")
+
         print('\n')
 
-    print("Primeras tres canciones \n")
+
+def printTrackInfo(control):
+    print("===================="*7)
+    print("Primeras tres canciones")
+    print("===================="*7)
     for i in range(1, 4):
-        print(lt.getElement(control['model']['tracks'], i))
+        track = lt.getElement(control['model']['tracks'], i)
+        name = track['name']
+        popularity = track['popularity']
+        disc_num = track['disc_number']
+        track_num = track['track_number']
+        duration = track['duration_ms']
+        href = track['href']
+        artistas = []
+        album_name = " "
+        for album in lt.iterator(control['model']['albums']):
+            if track['album_id'].lower() == album['id'].lower():
+                album_name = album['name']
+        for artist in lt.iterator(control['model']['artists']):
+            if artist['id'].lower() in track['artists_id'].lower():
+                artistas.append(artist['name'])
+
+        print(f"||Nombre: {name}\n  "
+              f"||Popularidad: {popularity}\n  "
+              f"||Nombre album: {(album_name)}\n  "
+              f"||Disc Number: {disc_num}\n  "
+              f"||Track number: {track_num}\n  "
+              f"||Duración (MS): {duration}\n  "
+              f"||Artistas: {(artistas)}\n  "
+              f"||Href: {href}||  ")
+
         print('\n')
 
-    print("Ultimas tres canciones \n")
+    print("===================="*7)
+    print("Ultimas tres canciones")
+    print("===================="*7)
     for i in range(-2, 1):
-        print(lt.getElement(control['model']['tracks'], i))
+        track = lt.getElement(control['model']['tracks'], i)
+        name = track['name']
+        popularity = track['popularity']
+        disc_num = track['disc_number']
+        track_num = track['track_number']
+        duration = track['duration_ms']
+        href = track['href']
+        artistas = []
+        album_name = " "
+        for album in lt.iterator(control['model']['albums']):
+            if track['album_id'].lower() == album['id'].lower():
+                album_name = album['name']
+        for artist in lt.iterator(control['model']['artists']):
+            if artist['id'].lower() in track['artists_id'].lower():
+                artistas.append(artist['name'])
+
+        print(f"||Nombre: {name}\n  "
+              f"||Popularidad: {popularity}\n  "
+              f"||Nombre album: {(album_name)}\n  "
+              f"||Disc Number: {disc_num}\n  "
+              f"||Track number: {track_num}\n  "
+              f"||Duración (MS): {duration}\n  "
+              f"||Artistas: {artistas}\n  "
+              f"||Href: {href}||")
         print('\n')
 
 
@@ -117,34 +275,45 @@ control = newController()
 def printAlbumsPorAnio(albums, anio_o, anio_f):
     size = lt.size(albums)
     if size:
+        print("===================="*7)
         print(f"Estos son los albumes entre {anio_o} y {anio_f}: \n")
-        print(f"Total de albums encontrados: {size} \n")
-        print("Primeros tres elementos:\n")
+        print(f"Total de albums encontrados: {size}")
+        print("===================="*7)
+        print("\n")
+        print("===================="*7)
+        print("Primeros tres elementos:")
+        print("===================="*7)
+
         for i in range(1, 4):
             album = lt.getElement(albums, i)
             artist_dic = album['artist_dic']
             artist = []
             for artistName in lt.iterator(artist_dic):
                 artist.append(artistName['name'])
-            print(("Nombre: " + album['name'] +
-                   ", Fecha publicación: " + str(album['release_date']) +
-                   ", Tipo: " + album['album_type'] +
-                   ", Artista: " + str(artist) + album['artist_id'] +
-                   ", Total de canciones: " + album['total_tracks']))
-        print("\n")
-        print("Ultimos tres alementos:\n")
+
+            print(f"||Nombre: {album['name']}\n  "
+                  f"||Fecha publicación: {str(album['release_date'])}\n  "
+                  f"||Tipo: {album['album_type']}\n  "
+                  f"||Artistas: {artist}\n  "
+                  f"||ID del artista: {album['artist_id']}\n  "
+                  f"||Total canciones: {album['total_tracks']}\n  ")
+
+        print("===================="*7)
+        print("Ultimos tres alementos:")
+        print("===================="*7)
         for i in range(-2, 1):
             album = lt.getElement(albums, i)
             artist_dic = album['artist_dic']
             artist = []
             for artistName in lt.iterator(artist_dic):
                 artist.append(artistName['name'])
-            print(("Nombre: " + album['name'] +
-                   ", Fecha publicación: " + str(album['release_date']) +
-                   ", Tipo: " + album['album_type'] +
-                   ", Artista: " + str(artist) + album['artist_id'] +
-                   ", Total de canciones: " + album['total_tracks']))
 
+            print(f"||Nombre: {album['name']}\n  "
+                  f"||Fecha publicación: {str(album['release_date'])}\n  "
+                  f"||Tipo: {album['album_type']}\n  "
+                  f"||Artistas: {artist}\n  "
+                  f"||ID del artista: {album['artist_id']}\n  "
+                  f"||Total canciones: {album['total_tracks']}\n  ")
     else:
         print("No hay albumes en estos periodos")
 
@@ -166,10 +335,14 @@ while True:
         # la información de cada lista.
 
         print("Cargando información de los archivos .... \n")
-        printInfo(control)
+        printAlbumsInfo(control)
+        printArtistInfo(control)
+        printTrackInfo(control)
+        print("===================="*2)
         print(f"Cantidad de albumes cargados: {albums} \n")
         print(f"Cantidad de artistas cargados: {artists} \n")
-        print(f"Cantidad de canciones cargadas: {tracks} \n")
+        print(f"Cantidad de canciones cargadas: {tracks}")
+        print("===================="*2)
 
     elif int(inputs[0]) == 2:
         anio_o = int(input("Ingrese año inicial de busqueda:\n"))

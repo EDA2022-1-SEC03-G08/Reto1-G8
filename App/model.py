@@ -101,9 +101,15 @@ def newAlbum(albumdic):
             date_format = dt.strptime(albumdic["release_date"], "%Y-%m-%d")
             anio = int(dt.strftime(date_format, "%Y"))
 
+            if anio > 2022:
+                anio = anio - 100
+
         except ValueError:
             date_format = dt.strptime(albumdic["release_date"], "%Y")
             anio = int(dt.strftime(date_format, "%Y"))
+
+            if anio > 2022:
+                anio = anio - 100
 
     albumdic["release_date"] = anio
     albumdic['artist_dic'] = lt.newList('ARRAY_LIST')
