@@ -43,7 +43,7 @@ y otra para las canciones.
 def newCatalog():
 
     catalog = {"albums": None,
-               "artist": None,
+               "artists": None,
                "tracks": None}
     # No se neceistan listas encadenadas pues la información solo se va a
     # consultar pero no a alterar. Por otro lado siempre se añade
@@ -68,10 +68,8 @@ def addArtist(catalog, artistdic):
     neoArtist = newArtist(artistdic)
     for album in lt.iterator(catalog["albums"]):
         artists = (album["artist_id"].strip()).lower()
-        for artista in artists:
-            if neoArtist['id'].lower() == artista.lower():
-                if lt.isPresent(album['artist_dic'], neoArtist) == 0:
-                    lt.addLast(album['artist_dic'], neoArtist)
+        if neoArtist['id'].lower() in artists:
+            lt.addLast(album['artist_dic'], neoArtist)
     lt.addLast(catalog["artists"], neoArtist)
     return catalog
 
