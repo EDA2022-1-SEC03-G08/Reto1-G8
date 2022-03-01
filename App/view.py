@@ -48,6 +48,9 @@ def newController():
     #          }
 
 
+control = newController()
+
+
 def printMenu():
     print("""
 Bienvenido
@@ -269,9 +272,6 @@ def printTrackInfo(control):
         print('\n')
 
 
-control = newController()
-
-
 def printAlbumsPorAnio(albums, anio_o, anio_f):
     size = lt.size(albums)
     if size:
@@ -295,8 +295,8 @@ def printAlbumsPorAnio(albums, anio_o, anio_f):
                   f"||Fecha publicación: {str(album['release_date'])}\n  "
                   f"||Tipo: {album['album_type']}\n  "
                   f"||Artistas: {artist}\n  "
-                  f"||ID del artista: {album['artist_id']}\n  "
-                  f"||Total canciones: {album['total_tracks']}\n  ")
+                  f"||Total de canciones: {album['total_tracks']}\n  "
+                  f"||Urls externos: {album['external_urls']}\n  ")
 
         print("===================="*7)
         print("Ultimos tres alementos:")
@@ -312,10 +312,78 @@ def printAlbumsPorAnio(albums, anio_o, anio_f):
                   f"||Fecha publicación: {str(album['release_date'])}\n  "
                   f"||Tipo: {album['album_type']}\n  "
                   f"||Artistas: {artist}\n  "
-                  f"||ID del artista: {album['artist_id']}\n  "
-                  f"||Total canciones: {album['total_tracks']}\n  ")
+                  f"||Total de canciones: {album['total_tracks']}\n  "
+                  f"||Urls externos: {album['external_urls']}\n  ")
     else:
         print("No hay albumes en estos periodos")
+
+
+def printPopularTracks(tracks, top, albums):
+    size = lt.size(tracks)
+    if size:
+        if top > size:
+            top = size
+        print("===================="*7)
+        print(f"Este es el top {top} de canciones: \n")
+        print(f"Total de canciones: {size}")
+        print("===================="*7)
+        print("\n")
+        print("===================="*7)
+        print("Primeros tres elementos:")
+        print("===================="*7)
+        for i in range(1, 4):
+
+            track = lt.getElement(tracks, i)
+            album_name = " "
+            lista_artistas = []
+            lyrics = track['lyrics']
+            if lyrics == "-99":
+                lyrics = "Letra no disponible"
+
+            for album in lt.iterator(albums):
+                if track['album_id'].lower() == album['id'].lower():
+                    album_name = album['name']
+            for artist in lt.iterator(control['model']['artists']):
+                if artist['id'].lower() in track['artists_id'].lower():
+                    lista_artistas.append(artist['name'])
+
+            print(f"||Popularidad: {track['popularity']}\n  "
+                  f"||Duración: {track['duration_ms']}\n  "
+                  f"||Nombre: {track['name']}\n  "
+                  f"||Disc number: {track['disc_number']}\n  "
+                  f"||Track number: {track['track_number']}\n  "
+                  f"||Nombre album: {album_name}\n  "
+                  f"||Artistas: {lista_artistas}\n  "
+                  f"||Href: {track['href']}\n  "
+                  f"||Lyrics: {lyrics}\n  ")
+        print("===================="*7)
+        print("Ultimos tres elementos:")
+        print("===================="*7)
+        for i in range(-2, 1):
+
+            track = lt.getElement(tracks, i)
+            album_name = " "
+            lista_artistas = []
+            lyrics = track['lyrics']
+            if lyrics == "-99":
+                lyrics = "Letra no disponible"
+
+            for album in lt.iterator(albums):
+                if track['album_id'].lower() == album['id'].lower():
+                    album_name = album['name']
+            for artist in lt.iterator(control['model']['artists']):
+                if artist['id'].lower() in track['artists_id'].lower():
+                    lista_artistas.append(artist['name'])
+
+            print(f"||Popularidad: {track['popularity']}\n  "
+                  f"||Duración: {track['duration_ms']}\n  "
+                  f"||Nombre: {track['name']}\n  "
+                  f"||Disc number: {track['disc_number']}\n  "
+                  f"||Track number: {track['track_number']}\n  "
+                  f"||Nombre album: {album_name}\n  "
+                  f"||Artistas: {lista_artistas}\n  "
+                  f"||Href: {track['href']}\n  "
+                  f"||Lyrics: {lyrics}\n  ")
 
 
 """
@@ -353,7 +421,11 @@ while True:
     elif int(inputs[0]) == 3:
         pass
     elif int(inputs[0]) == 4:
-        pass
+        albums = control['model']['albums']
+        top = int(input("Esta buscando el top...\n"))
+        tracks = controller.popularTracks(control, top)
+        printPopularTracks(tracks, top, albums)
+
     elif int(inputs[0]) == 5:
         pass
     elif int(inputs[0]) == 6:

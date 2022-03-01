@@ -68,9 +68,10 @@ def addArtist(catalog, artistdic):
     neoArtist = newArtist(artistdic)
     for album in lt.iterator(catalog["albums"]):
         artists = (album["artist_id"].strip()).lower()
-        if neoArtist['id'].lower() in artists:
-            if lt.isPresent(album['artist_dic'], neoArtist) == 0:
-                lt.addLast(album['artist_dic'], neoArtist)
+        for artista in artists:
+            if neoArtist['id'].lower() == artista.lower():
+                if lt.isPresent(album['artist_dic'], neoArtist) == 0:
+                    lt.addLast(album['artist_dic'], neoArtist)
     lt.addLast(catalog["artists"], neoArtist)
     return catalog
 
@@ -134,8 +135,21 @@ def albumesPorAnio(catalog, anio_o, anio_f):
         if (album['release_date'] >= anio_o) and (album['release_date'] <= anio_f):
             lt.addLast(lista_albums, album)
     return lista_albums
-# FUnciones de inidcadores de tamaño
 
+
+def popularTracks(catalog, top):
+    """
+    retorna una lista con las N canciones mas populares
+    """
+    tracks = catalog['tracks']
+    lista_tracks = lt.newList("ARRAY_LIST")
+    for track in lt.iterator(tracks):
+        if lt.size(lista_tracks) < top:
+            lt.addLast(lista_tracks, track)
+    return lista_tracks
+
+
+# FUnciones de inidcadores de tamaño
 
 def albumSize(catalog):
     return lt.size(catalog['albums'])

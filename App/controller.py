@@ -97,3 +97,8 @@ def albumesPorAnio(control, anio_o, anio_f):
 
     albums = model.albumesPorAnio(control['model'], anio_o, anio_f)
     return albums
+
+
+def popularTracks(control, top):
+    tracks = model.popularTracks(control['model'], top)
+    return tracks
