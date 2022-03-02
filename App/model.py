@@ -148,8 +148,8 @@ def getPopularTracks(list, nombre, pais):
 # encontrar el artista buscado, y la segunda iteracion es o(1)
         if (artist['name'] == nombre):
             lt.addLast(artistAndTracks, artist)
-            for track in artist["all_tracks"]:
-                if track["available_markets"] == pais:
+            for track in artist["all_tracks"]["elements"]:
+                if pais in track["available_markets"]:
                     if lt.isPresent(validAlbums, track["album_id"]) == False:
                         lt.addLast(validAlbums, track["album_id"])
                     lt.addLast(validTracks, track)

@@ -167,6 +167,37 @@ def printArtista(name, popularity, followers, genres, topSong):
     print("Generos: " + genres + "\n")
     print("Cancion referente: " + topSong + "\n")
 
+def printCancion(popularity, duration, name, discN, trackN, ):
+    print("\n")
+    print("Nombre: " + name + "\n")
+    print("Popularidad: " + popularity + "\n")
+    print("Followers: " + followers + "\n")
+    print("Generos: " + genres + "\n")
+    print("Cancion referente: " + topSong + "\n")
+
+def printCancionespPorRegion(size, albums, tracks):
+    con = 0
+    numN = size
+    while numN > 0 and con < 3:
+        cancion = lt.getElement(tracks, con + 1)
+        printCancion()
+        numN -= 1
+        con += 1
+    if numN < 3:
+        con = numN
+        numN = 3
+    numN += 1
+    while con > 0:
+        artistN = lt.getElement(topArtistas, numN)
+        nombreCancion = ""
+        for el in artistN["all_tracks"]["elements"]:
+            if el["id"] == artistN["track_id"]:
+                nombreCancion = el["name"]
+                break
+        printArtista(artistN["name"], artistN["artist_popularity"], artistN["followers"], artistN["genres"], nombreCancion)
+        numN += 1
+        con -= 1
+
 """
 Menu principal
 """
@@ -215,17 +246,19 @@ while True:
         nobreArtist = input("Ingrese el nombre del artista:\n")
         nombrePais = input("Ingrese el nombre de país/mercado disponible de la canción:\n")
 
-        artistaInfo = controller.getPopularTracks(control, nobreArtist, nombrePais)
+        artistaInfo, pais = controller.getPopularTracks(control, nobreArtist, nombrePais)
         size = lt.size(artistaInfo)
         if size:
             artist = lt.getElement(artistaInfo, 1)
-            print("Las primeros y ultimos 3 canciones más populares de" + nobreArtist + ":")
-            print(artist)
-            for song in artist["all_tracks"]["elements"]:
-                if song["id"] == song["track_id"]:
-                    nombreCancion = el["name"]
-                    break
             validAlbums = lt.getElement(artistaInfo, 2)
+            validTracks = lt.getElement(artistaInfo, 3)
+            x = lt.size(validAlbums)
+            y = lt.size(validTracks)
+            print("Discografia disponible de " + nobreArtist + " en " + nombrePais + " (" + pais + "): ")
+            print("Albumes unicos disponibles: " + str(x))
+            print("Canciones unicas disponibles: " + str(y) + "\n")
+            print("Los primeros y ultimos 3 artistas más populares en el top" + str(topN) + ":")
+            printCancionespPorRegion(artist, validAlbums, validTracks)
         else:
             print("No se encontro al artista.")
 

@@ -19,9 +19,12 @@
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
+from curses import panel
 import config as cf
 import model
 import csv
+import pycountry
+
 ...
 csv.field_size_limit(2147483647)
 
@@ -101,4 +104,6 @@ def getTopArtists(control, topN):
     return model.getTopArtists(control["model"], topN)
 
 def getPopularTracks(control, nombre, pais):
-    return model.getPopularTracks(control["model"], nombre, pais)
+    pa = pycountry.countries.search_fuzzy(str(pais))
+    xa = pa[0].alpha_2
+    return model.getPopularTracks(control["model"], nombre, xa), xa
