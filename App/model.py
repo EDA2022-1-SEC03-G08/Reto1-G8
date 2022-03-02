@@ -137,6 +137,28 @@ def getTopArtists(list, topN):
         lt.addLast(lista_artistas, lt.getElement(artistas, pos+1))
     return lista_artistas
 
+
+def getPopularTracks(list, nombre, pais):
+    artistas = list["artists"]
+    artistAndTracks = lt.newList("ARRAY_LIST")
+    validAlbums = lt.newList("ARRAY_LIST")
+    validTracks = lt.newList("ARRAY_LIST")
+    for artist in lt.iterator(artistas):
+# NO ES o(n)>2, ya que solo realiza el segundo loop en el caso de
+# encontrar el artista buscado, y la segunda iteracion es o(1)
+        if (artist['name'] == nombre):
+            lt.addLast(artistAndTracks, artist)
+            for track in artist["all_tracks"]:
+                if track["available_markets"] == pais:
+                    if lt.isPresent(validAlbums, track["album_id"]) == False:
+                        lt.addLast(validAlbums, track["album_id"])
+                    lt.addLast(validTracks, track)
+            lt.addLast(artistAndTracks, validAlbums)
+            lt.addLast(artistAndTracks, validTracks)
+            return artistAndTracks
+                    
+    return artistAndTracks
+
 # FUnciones de inidcadores de tamaño
 
 

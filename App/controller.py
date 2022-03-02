@@ -99,3 +99,6 @@ def albumesPorAnio(control, anio_o, anio_f):
 
 def getTopArtists(control, topN):
     return model.getTopArtists(control["model"], topN)
+
+def getPopularTracks(control, nombre, pais):
+    return model.getPopularTracks(control["model"], nombre, pais)
