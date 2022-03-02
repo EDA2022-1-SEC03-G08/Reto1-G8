@@ -67,7 +67,7 @@ def addAlbum(catalog, albumdic):
 def addArtist(catalog, artistdic):
     neoArtist = newArtist(artistdic)
     for album in lt.iterator(catalog["albums"]):
-        artists = (album["artist_id"].strip()).lower()
+        artists = album["artist_id"].lower()
         if neoArtist['id'].lower() in artists:
             lt.addLast(album['artist_dic'], neoArtist)
     lt.addLast(catalog["artists"], neoArtist)
@@ -76,8 +76,7 @@ def addArtist(catalog, artistdic):
 
 def addTrack(catalog, track):
     for artist in lt.iterator(catalog['artists']):
-        tracks = (track['artists_id'].strip()).lower()
-        if artist['id'].lower() in tracks:
+        if artist['id'].lower() in track['artists_id'].lower():
             lt.addLast(artist["all_tracks"], track)
     lt.addLast(catalog['tracks'], track)
     return catalog
@@ -145,6 +144,20 @@ def popularTracks(catalog, top):
         if lt.size(lista_tracks) < top:
             lt.addLast(lista_tracks, track)
     return lista_tracks
+
+
+def discografiaArtista(catalog, nombreArtista):
+    nombre = str(nombreArtista).strip().lower()
+    lista_albums = lt.newList("ARRAY_LIST")
+    lista_artistas = lt.newList("ARRAY_LIST")
+    for album in lt.iterator(catalog['albums']):
+        for artista in lt.iterator(album['artist_dic']):
+            if nombre == artista['name'].strip().lower():
+                lt.addLast(lista_albums, album)
+    for artista1 in lt.iterator(catalog['artists']):
+        if nombre == artista1['name'].strip().lower():
+            lt.addLast(lista_artistas, artista1)
+    return lista_albums
 
 
 # FUnciones de inidcadores de tamaño

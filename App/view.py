@@ -386,6 +386,10 @@ def printPopularTracks(tracks, top, albums):
                   f"||Lyrics: {lyrics}\n  ")
 
 
+def printDiscografiaArtista(albums, nombreArtista):
+    size = lt.size(albums)
+    print(albums)
+    print(size)
 """
 Menu principal
 """
@@ -429,6 +433,9 @@ while True:
     elif int(inputs[0]) == 5:
         pass
     elif int(inputs[0]) == 6:
+        nombre = input("Que artista desea buscar: \n")
+        albums = controller.discografiaArtista(control, nombre)
+        printDiscografiaArtista(albums, nombre)
         pass
     elif int(inputs[0]) == 7:
         pass
