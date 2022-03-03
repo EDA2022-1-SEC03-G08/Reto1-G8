@@ -418,17 +418,15 @@ def printDiscografiaArtista(albums, nombreArtista):
             longitud = size+1
         elif size >= 3:
             longitud = 4
+
         for i in range(1, longitud):
             album = lt.getElement(albums, i)
             artist_dic = album['artist_dic']
             artist = []
             tracks_list = []
+            track_artist = []
             for artistName in lt.iterator(artist_dic):
                 artist.append(artistName['name'])
-            for cancion in lt.iterator(control['model']['tracks']):
-                if cancion['album_id'] == album['id']:
-                    tracks_list.append(cancion)
-            print(tracks_list)
 
             print(f"||Nombre: {album['name']}\n  "
                   f"||Fecha publicación: {str(album['release_date'])}\n  "
@@ -437,23 +435,42 @@ def printDiscografiaArtista(albums, nombreArtista):
                   f"||Total de canciones: {album['total_tracks']}\n  "
                   f"||Urls externos: {album['external_urls']}\n  ")
 
+            for cancion in lt.iterator(control['model']['tracks']):
+                if cancion['album_id'] == album['id']:
+                    tracks_list.append(cancion)
+
+            if len(tracks_list) > 0:
+                cancion_rel = tracks_list[0]
+                for artista in lt.iterator(control['model']['artists']):
+                    if artista['id'] in cancion_rel['artists_id']:
+                        track_artist.append(artista['name'])
+                print(F"CANCIÓN MÁS POPULAR DE {album['name']}: \n ")
+
+                print(f"||Popularidad: {cancion_rel['popularity']}\n  "
+                      f"||Duración: {cancion_rel['duration_ms']}\n  "
+                      f"||Nombre: {cancion_rel['name']}\n  "
+                      f"||Disc Number: {cancion_rel['disc_number']}\n  "
+                      f"||Track number: {cancion_rel['track_number']}\n  "
+                      f"||Artistas: {track_artist}\n  "
+                      f"||Preview url: {cancion_rel['preview_url']}\n  "
+                      f"||Href: {cancion_rel['href']}\n  "
+                      f"||Lyrics: {cancion_rel['lyrics']}\n  ")
+
+                print("===================="*7)
 
         print("===================="*7)
         print("Ultimos tres alementos:")
         print("===================="*7)
-        if size >= 4:
+        if size >= 3:
 
             for i in range(-2, 1):
                 album = lt.getElement(albums, i)
                 artist_dic = album['artist_dic']
                 artist = []
                 tracks_list = []
+                track_artist = []
                 for artistName in lt.iterator(artist_dic):
                     artist.append(artistName['name'])
-                for cancion in lt.iterator(control['model']['tracks']):
-                    if cancion['album_id'] == album['id']:
-                        tracks_list.append(cancion)
-                print(tracks_list)
 
                 print(f"||Nombre: {album['name']}\n  "
                       f"||Fecha publicación: {str(album['release_date'])}\n  "
@@ -462,16 +479,28 @@ def printDiscografiaArtista(albums, nombreArtista):
                       f"||Total de canciones: {album['total_tracks']}\n  "
                       f"||Urls externos: {album['external_urls']}\n  ")
 
-                """
-                print(f"||Nombre: {name}\n  "
-                      f"||Popularidad: {popularity}\n  "
-                      f"||Nombre album: {(album_name)}\n  "
-                      f"||Disc Number: {disc_num}\n  "
-                      f"||Track number: {track_num}\n  "
-                      f"||Duración (MS): {duration}\n  "
-                      f"||Artistas: {(artistas)}\n  "
-                      f"||Href: {href}||  ")
-                """
+                for cancion in lt.iterator(control['model']['tracks']):
+                    if cancion['album_id'] == album['id']:
+                        tracks_list.append(cancion)
+
+                if len(tracks_list) > 0:
+                    cancion_rel = tracks_list[0]
+                    for artista in lt.iterator(control['model']['artists']):
+                        if artista['id'] in cancion_rel['artists_id']:
+                            track_artist.append(artista['name'])
+                    print(F"CANCIÓN MÁS POPULAR DE {album['name']}: \n ")
+
+                    print(f"||Popularidad: {cancion_rel['popularity']}\n  "
+                          f"||Duración: {cancion_rel['duration_ms']}\n  "
+                          f"||Nombre: {cancion_rel['name']}\n  "
+                          f"||Disc Number: {cancion_rel['disc_number']}\n  "
+                          f"||Track number: {cancion_rel['track_number']}\n  "
+                          f"||Artistas: {track_artist}\n  "
+                          f"||Preview url: {cancion_rel['preview_url']}\n  "
+                          f"||Href: {cancion_rel['href']}\n  "
+                          f"||Lyrics: {cancion_rel['lyrics']}\n  ")
+
+                    print("===================="*7)
         else:
             print("solo hay tres o menos albumes en la discografia")
     else:
