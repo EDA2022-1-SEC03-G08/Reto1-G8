@@ -131,7 +131,7 @@ def albumesPorAnio(catalog, anio_o, anio_f):
     albums = catalog['albums']
     lista_albums = lt.newList("ARRAY_LIST")
     for album in lt.iterator(albums):
-        
+
         if (album['release_date'] >= anio_o) and (album['release_date'] <= anio_f):
             lt.addLast(lista_albums, album)
     return lista_albums
@@ -152,7 +152,6 @@ def popularTracks(catalog, top):
 def discografiaArtista(catalog, nombreArtista):
     nombre = str(nombreArtista).strip().lower()
     lista_albums = lt.newList("ARRAY_LIST")
-    lista_artistas = lt.newList("ARRAY_LIST")
     for album in lt.iterator(catalog['albums']):
         for artista in lt.iterator(album['artist_dic']):
             if nombre == artista['name'].strip().lower():

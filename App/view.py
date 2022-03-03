@@ -435,7 +435,7 @@ def printDiscografiaArtista(albums, nombreArtista):
         print("Ultimos tres alementos:")
         print("===================="*7)
         if size >= 4:
-        
+
             for i in range(-2, 1):
                 album = lt.getElement(albums, i)
                 artist_dic = album['artist_dic']
@@ -444,12 +444,12 @@ def printDiscografiaArtista(albums, nombreArtista):
                     artist.append(artistName['name'])
 
                 print(f"||Nombre: {album['name']}\n  "
-                    f"||Fecha publicación: {str(album['release_date'])}\n  "
-                    f"||Tipo: {album['album_type']}\n  "
-                    f"||Artistas: {artist}\n  "
-                    f"||Total de canciones: {album['total_tracks']}\n  "
-                    f"||Urls externos: {album['external_urls']}\n  ")
-        else: 
+                      f"||Fecha publicación: {str(album['release_date'])}\n  "
+                      f"||Tipo: {album['album_type']}\n  "
+                      f"||Artistas: {artist}\n  "
+                      f"||Total de canciones: {album['total_tracks']}\n  "
+                      f"||Urls externos: {album['external_urls']}\n  ")
+        else:
             print("solo hay tres o menos albumes en la discografia")
     else:
         print(f"No se encontro discografia de {nombreArtista}")
