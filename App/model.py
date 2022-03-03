@@ -24,7 +24,6 @@
  * Dario Correal - Version inicial
  """
 from optparse import TitledHelpFormatter
-from platform import release
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import mergesort as sa
@@ -84,6 +83,7 @@ def addTrack(catalog, track):
 
 
 def newAlbum(albumdic):
+
     if albumdic["release_date"].startswith(("Jan", "Feb", "Mar", "Apr",
                                             "May", "Jun", "Jul", "Aug",
                                             "Sep", "Oct", "Nov", "Dec")):
@@ -109,7 +109,9 @@ def newAlbum(albumdic):
             if anio > 2022:
                 anio = anio - 100
 
-    albumdic["release_date"] = anio
+
+
+    albumdic["release_date"] = int(anio)
     albumdic['artist_dic'] = lt.newList('ARRAY_LIST')
 
     return albumdic
@@ -129,6 +131,7 @@ def albumesPorAnio(catalog, anio_o, anio_f):
     albums = catalog['albums']
     lista_albums = lt.newList("ARRAY_LIST")
     for album in lt.iterator(albums):
+        
         if (album['release_date'] >= anio_o) and (album['release_date'] <= anio_f):
             lt.addLast(lista_albums, album)
     return lista_albums
@@ -154,9 +157,6 @@ def discografiaArtista(catalog, nombreArtista):
         for artista in lt.iterator(album['artist_dic']):
             if nombre == artista['name'].strip().lower():
                 lt.addLast(lista_albums, album)
-    for artista1 in lt.iterator(catalog['artists']):
-        if nombre == artista1['name'].strip().lower():
-            lt.addLast(lista_artistas, artista1)
     return lista_albums
 
 

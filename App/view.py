@@ -388,8 +388,73 @@ def printPopularTracks(tracks, top, albums):
 
 def printDiscografiaArtista(albums, nombreArtista):
     size = lt.size(albums)
-    print(albums)
-    print(size)
+    tipoSingle = 0
+    tipoAlbum = 0
+    tipoCompilation = 0
+    if size:
+        for album in lt.iterator(albums):
+            if album['album_type'] == "album":
+                tipoAlbum += 1
+            elif album['album_type'] == "compilation":
+                tipoCompilation += 1
+            elif album['album_type'] == "single":
+                tipoSingle += 1
+
+        print("===================="*7)
+        print(f"Tamaño de la discografia de {nombreArtista}: {size}")
+        print(f"Compilation {tipoCompilation}")
+        print(f"single: {tipoSingle}")
+        print(f"album: {tipoAlbum}")
+        print("===================="*7)
+
+        print("===================="*7)
+        print("Detalle de los albums")
+        print("===================="*7)
+        print("\n")
+        print("===================="*7)
+        print("Primeros tres alementos:")
+        print("===================="*7)
+        if size < 3:
+            longitud = size+1
+        elif size >= 3:
+            longitud = 4
+        for i in range(1, longitud):
+            album = lt.getElement(albums, i)
+            artist_dic = album['artist_dic']
+            artist = []
+            for artistName in lt.iterator(artist_dic):
+                artist.append(artistName['name'])
+
+            print(f"||Nombre: {album['name']}\n  "
+                  f"||Fecha publicación: {str(album['release_date'])}\n  "
+                  f"||Tipo: {album['album_type']}\n  "
+                  f"||Artistas: {artist}\n  "
+                  f"||Total de canciones: {album['total_tracks']}\n  "
+                  f"||Urls externos: {album['external_urls']}\n  ")
+        print("===================="*7)
+        print("Ultimos tres alementos:")
+        print("===================="*7)
+        if size >= 4:
+        
+            for i in range(-2, 1):
+                album = lt.getElement(albums, i)
+                artist_dic = album['artist_dic']
+                artist = []
+                for artistName in lt.iterator(artist_dic):
+                    artist.append(artistName['name'])
+
+                print(f"||Nombre: {album['name']}\n  "
+                    f"||Fecha publicación: {str(album['release_date'])}\n  "
+                    f"||Tipo: {album['album_type']}\n  "
+                    f"||Artistas: {artist}\n  "
+                    f"||Total de canciones: {album['total_tracks']}\n  "
+                    f"||Urls externos: {album['external_urls']}\n  ")
+        else: 
+            print("solo hay tres o menos albumes en la discografia")
+    else:
+        print(f"No se encontro discografia de {nombreArtista}")
+
+
 """
 Menu principal
 """
