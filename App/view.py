@@ -171,9 +171,11 @@ def printCancion(name, nombreAlbum, fecha, artistas, duration, popularity ,url, 
     print("\n")
     print("Nombre: " + name + "\n")
     print("Album: " + nombreAlbum + "\n")
-    print("Fecha de publicación: " + fecha + "\n")
-    print("Artistas: " + artistas + "\n")
-    print("Duración: " + duration + "\n")
+    print("Fecha de publicación: " + str(fecha) + "\n")
+    print("Artistas: ")
+    for a in artistas.split():
+        print(a + " \n")
+    print("Duración: " + str(duration) + "\n")
     print("Popularidad: " + popularity + "\n")
     print("URL preview: " + url + "\n")
     print("Letra: " + letra + "\n")
@@ -183,19 +185,21 @@ def printCancionespPorRegion(size, artists, albums, tracks):
     numN = size
     while numN > 0 and con < 3:
         cancion = lt.getElement(tracks, con + 1)
-        nAlbum = None
+        nonmbreAlbum = "No identificado" 
+        fechAlbum = "No identificada"
+        nombreArtistas = ""
         for album in lt.iterator(albums):
-            print(lt.getElement(albums, 1))
-      #      if album["id"] == cancion["album_id"]:
-       #         nAlbum = album["name"]
-        #        print(nAlbum)
-         #       print(album)
-          #      break
-                
-##        artists = ["artists_id"]
-  ##      RDalbum = albums["release_date"]
-    ##    pop = lt.getElement(artists, 1)
-     ##   printCancion(cancion["name"], nAlbum, album, artists, cancion["duration_ms"], cancion["popularity"], cancion["preview_url"], cancion["lyrics"])
+            if cancion["album_id"] == album["id"]:
+               nonmbreAlbum = album["name"] 
+               fechAlbum = album["release_date"]
+               for artist in album["artist_dic"]["elements"]:
+                   nombreArtistas += artist["name"] + " "
+               break
+        letra = cancion["lyrics"]
+        if letra == "-99":
+            letra = "Letra de la canción NO disponible"
+        letra = (letra[:150] + '\n...') if len(letra) > 150 else letra
+        printCancion(cancion["name"], nonmbreAlbum, fechAlbum, nombreArtistas, cancion["duration_ms"], cancion["popularity"], cancion["preview_url"], letra)
         numN -= 1
         con += 1
     if numN < 3:
@@ -203,7 +207,22 @@ def printCancionespPorRegion(size, artists, albums, tracks):
         numN = 3
     numN += 1
     while con > 0:
-
+        cancion = lt.getElement(tracks, con + 1)
+        nonmbreAlbum = "No identificado" 
+        fechAlbum = "No identificada"
+        nombreArtistas = ""
+        for album in lt.iterator(albums):
+            if cancion["album_id"] == album["id"]:
+               nonmbreAlbum = album["name"] 
+               fechAlbum = album["release_date"]
+               for artist in album["artist_dic"]["elements"]:
+                   nombreArtistas += artist["name"] + " "
+               break
+        letra = cancion["lyrics"]
+        if letra == "-99":
+            letra = "Letra de la canción NO disponible"
+        letra = (letra[:150] + '\n...') if len(letra) > 150 else letra
+        printCancion(cancion["name"], nonmbreAlbum, fechAlbum, nombreArtistas, cancion["duration_ms"], cancion["popularity"], cancion["preview_url"], letra)
         numN += 1
         con -= 1
 

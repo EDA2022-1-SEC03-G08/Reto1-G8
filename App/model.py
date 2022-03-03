@@ -139,25 +139,28 @@ def getTopArtists(list, topN):
 
 
 def getPopularTracks(list, nombre, pais):
-    artistas = list["artists"]
-    artistAndTracks = lt.newList("ARRAY_LIST")
+    albumes = list["albums"]
+    albumsAndThings = lt.newList("ARRAY_LIST")
     validAlbums = lt.newList("ARRAY_LIST")
+    validArtist = lt.newList("ARRAY_LIST")
     validTracks = lt.newList("ARRAY_LIST")
-    for artist in lt.iterator(artistas):
+    for album in lt.iterator(albumes):
 # NO ES o(n)>2, ya que solo realiza el segundo loop en el caso de
 # encontrar el artista buscado, y la segunda iteracion es o(1)
-        if (artist['name'] == nombre):
-            lt.addLast(artistAndTracks, artist)
-            for track in artist["all_tracks"]["elements"]:
-                if pais in track["available_markets"]:
-                    if lt.isPresent(validAlbums, track["album_id"]) == False:
-                        lt.addLast(validAlbums, track["album_id"])
-                    lt.addLast(validTracks, track)
-            lt.addLast(artistAndTracks, validAlbums)
-            lt.addLast(artistAndTracks, validTracks)
-            return artistAndTracks
-                    
-    return artistAndTracks
+        if pais in album["available_markets"]:
+            for artist in album['artist_dic']["elements"]:
+                if (artist["name"] in nombre):
+                    lt.addLast(validAlbums, album)
+                    if lt.size(validArtist) == 0:
+                        lt.addLast(validArtist, artist)
+                        for track in artist["all_tracks"]["elements"]:
+                            if pais in track["available_markets"]:
+                                lt.addLast(validTracks, track)
+
+    lt.addLast(albumsAndThings, validArtist)
+    lt.addLast(albumsAndThings, validAlbums)
+    lt.addLast(albumsAndThings, validTracks)
+    return albumsAndThings
 
 # FUnciones de inidcadores de tamaño
 
