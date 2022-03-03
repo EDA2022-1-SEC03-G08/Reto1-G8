@@ -2,7 +2,7 @@
 
 Este proyecto contiene los Tipos abstractos de datos, estructuras de datos y algoritmos requeridos por el curso ISIS1225-Estructuras de Datos y Algoritmos
 
-integrantes 
+Integrantes: 
 
 Juan David Salguero 201923136 
 j.salguero@uniandes.edu.co
