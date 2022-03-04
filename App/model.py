@@ -148,12 +148,12 @@ def getPopularTracks(list, nombre, pais):
 # NO ES o(n)>2, ya que solo realiza el segundo loop en el caso de
 # encontrar el artista buscado, y la segunda iteracion es o(1)
         if pais in album["available_markets"]:
-            for artist in album['artist_dic']["elements"]:
+            for artist in lt.iterator(album['artist_dic']):
                 if (artist["name"] in nombre):
                     lt.addLast(validAlbums, album)
                     if lt.size(validArtist) == 0:
                         lt.addLast(validArtist, artist)
-                        for track in artist["all_tracks"]["elements"]:
+                        for track in lt.iterator(artist["all_tracks"]):
                             if pais in track["available_markets"]:
                                 lt.addLast(validTracks, track)
 

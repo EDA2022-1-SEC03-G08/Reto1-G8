@@ -137,7 +137,7 @@ def printTopArtistas(topArtistas):
         # Resulta O(1) ya que la lista iterada es notablemente menor que
         # n total de datos
         nombreCancion = ""
-        for el in artistN["all_tracks"]["elements"]:
+        for el in lt.iterator(artistN["all_tracks"]):
             if el["id"] == artistN["track_id"]:
                 nombreCancion = el["name"]
                 break
@@ -151,7 +151,7 @@ def printTopArtistas(topArtistas):
     while con > 0:
         artistN = lt.getElement(topArtistas, numN)
         nombreCancion = ""
-        for el in artistN["all_tracks"]["elements"]:
+        for el in lt.iterator(artistN["all_tracks"]):
             if el["id"] == artistN["track_id"]:
                 nombreCancion = el["name"]
                 break
@@ -192,7 +192,7 @@ def printCancionespPorRegion(size, artists, albums, tracks):
             if cancion["album_id"] == album["id"]:
                nonmbreAlbum = album["name"] 
                fechAlbum = album["release_date"]
-               for artist in album["artist_dic"]["elements"]:
+               for artist in lt.iterator(album["artist_dic"]):
                    nombreArtistas += artist["name"] + " "
                break
         letra = cancion["lyrics"]
@@ -215,7 +215,7 @@ def printCancionespPorRegion(size, artists, albums, tracks):
             if cancion["album_id"] == album["id"]:
                nonmbreAlbum = album["name"] 
                fechAlbum = album["release_date"]
-               for artist in album["artist_dic"]["elements"]:
+               for artist in lt.iterator(album["artist_dic"]):
                    nombreArtistas += artist["name"] + " "
                break
         letra = cancion["lyrics"]
@@ -263,7 +263,7 @@ while True:
         size = lt.size(topArtistas)
         if size:
             print("Los primeros y ultimos 3 artistas más populares en el top" + str(topN) + ":")
-            printTopArtistas(topArtistas["all_tracks"]["elements"])
+            printTopArtistas(topArtistas)
         else:
             print("0 artistas en TOP 0")
 
