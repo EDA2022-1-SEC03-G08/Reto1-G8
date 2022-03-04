@@ -167,24 +167,11 @@ def printTopArtistas(topArtistas):
 
 def printArtista(name, popularity, followers, genres, topSong):
     print("\n")
-    print("Nombre: " + name + "\n")
-    print("Popularidad: " + popularity + "\n")
-    print("Followers: " + followers + "\n")
-    print("Generos: " + genres + "\n")
-    print("Cancion referente: " + topSong + "\n")
-
-def printCancion(name, nombreAlbum, fecha, artistas, duration, popularity ,url, letra):
-    print("\n")
-    print("Nombre: " + name + "\n")
-    print("Album: " + nombreAlbum + "\n")
-    print("Fecha de publicación: " + str(fecha) + "\n")
-    print("Artistas: ")
-    for a in artistas.split():
-        print(a + " \n")
-    print("Duración: " + str(duration) + "\n")
-    print("Popularidad: " + popularity + "\n")
-    print("URL preview: " + url + "\n")
-    print("Letra: " + letra + "\n")
+    print(f"||Nombre: " + name + "\n")
+    print(f"||Popularidad: " + popularity + "\n")
+    print(f"||Followers: " + followers + "\n")
+    print(f"||Generos: " + genres + "\n")
+    print(f"||Cancion referente: " + topSong + "\n")
 
 def printCancionespPorRegion(size, artists, albums, tracks):
     con = 0
@@ -237,7 +224,19 @@ def printCancionespPorRegion(size, artists, albums, tracks):
         printCancion(cancion["name"], nonmbreAlbum, fechAlbum, nombreArtistas, cancion["duration_ms"], cancion["popularity"], cancion["preview_url"], letra)
         numN += 1
         con -= 1
-
+        
+def printCancion(name, nombreAlbum, fecha, artistas, duration, popularity ,url, letra):
+    print("\n")
+    print(f"||Nombre: " + name + "\n")
+    print(f"||Album: " + nombreAlbum + "\n")
+    print(f"||Fecha de publicación: " + str(fecha) + "\n")
+    print(f"||Artistas: ")
+    for a in artistas.split():
+        print(a + " \n")
+    print(f"||Duración: " + str(duration) + "\n")
+    print(f"||Popularidad: " + popularity + "\n")
+    print(f"||URL preview: " + url + "\n")
+    print(f"||Letra: " + letra + "\n ||")
 """
 Menu principal
 """
