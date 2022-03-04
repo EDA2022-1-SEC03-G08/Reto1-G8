@@ -19,25 +19,26 @@
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
-
+from curses import panel
 import config as cf
 import model
 import csv
+import pycountry
 
+...
+csv.field_size_limit(2147483647)
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
-# Inicialización del Catálogo
 
+# Inicialización del Catálogo de libros
 def newController():
     """
     Crea una instancia del modelo
     """
-    control = {
-        'model': None
-    }
+    control = {'model': None}
     control['model'] = model.newCatalog()
     return control
 
@@ -46,41 +47,62 @@ def newController():
 def loadData(control):
     catalog = control['model']
     albums = loadAlbums(catalog)
-    artists = loadArtists(catalog)
+    artists = loadArtist(catalog)
     tracks = loadTracks(catalog)
+    sortAlbums(catalog)
+    sortTracks(catalog)
+    sortArtists(catalog) 
     return albums, artists, tracks
 
 
 def loadAlbums(catalog):
+
     albumsfile = cf.data_dir + 'spotify-albums-utf8-5pct.csv'
-    input_file = csv.DictReader(open(albumsfile, encoding='utf-8'))
-    for album in input_file:
-        model.addNewAlbum(catalog, album)
+    input_file_al = csv.DictReader(open(albumsfile, encoding='utf-8'))
+    for album in input_file_al:
+        model.addAlbum(catalog, album)
     return model.albumSize(catalog)
 
 
-def loadArtists(catalog):
-    artistfile = cf.data_dir + 'spotify-artists-utf8-5pct.csv'
-    input_file = csv.DictReader(open(artistfile, encoding='utf-8'))
-    for artist in input_file:
-        model.addNewArtist(catalog, artist)
+def loadArtist(catalog):
+    artistsfile = cf.data_dir + 'spotify-artists-utf8-5pct.csv'
+    input_file_ar = csv.DictReader(open(artistsfile, encoding='utf-8'))
+    for artist in input_file_ar:
+        model.addArtist(catalog, artist)
     return model.artistSize(catalog)
 
+
 def loadTracks(catalog):
-    trackfile = cf.data_dir + 'spotify-tracks-utf8-5pct.csv'
-    input_file = csv.DictReader(open(trackfile, encoding='utf-8'))
-    for track in input_file:
-        model.addNewTrack(catalog, track)
+    tracksfile = cf.data_dir + 'spotify-tracks-utf8-5pct.csv'
+    input_file_tr = csv.DictReader(open(tracksfile, encoding='utf-8'))
+    for track in input_file_tr:
+        model.addTrack(catalog, track)
     return model.trackSize(catalog)
 
 
 # Funciones de ordenamiento
-def sortTracks(catalog):
-    """
-    Ordena los tracks por average_rating
-    """
-    model.sortTracks(catalog)
+def sortAlbums(catalog):
+    model.sortAlbums(catalog)
 
-def sortArtistslab(catalog, size, ttype, sorter):
-    return model.sortArtistslab(catalog, size, ttype, sorter)
+
+def sortArtists(catalog):
+    model.sortArtists(catalog)
+
+
+def sortTracks(catalog):
+    model.sortTracks(catalog)
 # Funciones de consulta sobre el catálogo
+
+
+def albumesPorAnio(control, anio_o, anio_f):
+
+    albums = model.albumesPorAnio(control['model'], anio_o, anio_f)
+    return albums
+
+def getTopArtists(control, topN):
+    return model.getTopArtists(control["model"], topN)
+
+def getPopularTracks(control, nombre, pais):
+    pa = pycountry.countries.search_fuzzy(str(pais))
+    xa = pa[0].alpha_2
+    return model.getPopularTracks(control["model"], nombre, xa), xa

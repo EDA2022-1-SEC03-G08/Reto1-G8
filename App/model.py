@@ -23,21 +23,14 @@
  *
  * Dario Correal - Version inicial
  """
-
 from optparse import TitledHelpFormatter
 from platform import release
-import time
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
-#TODO: De lab 4 borrar!!!
-from DISClib.Algorithms.Sorting import insertionsort as ins
-from DISClib.Algorithms.Sorting import selectionsort as ses
-from DISClib.Algorithms.Sorting import mergesort as mes
-from DISClib.Algorithms.Sorting import quicksort as qus
-#
+from DISClib.Algorithms.Sorting import mergesort as sa
 from datetime import datetime as dt
 assert cf
+
 
 """
 Se define la estructura de un catálogo de Spotify.
@@ -48,77 +41,129 @@ y otra para las canciones.
 
 # Construccion de modelos
 def newCatalog():
-    """
-    Inicializa el catálogo de tracks. Crea una lista vacia para guardar
-    todos los tracks, adicionalmente, crea una lista vacia para los artistas,
-    una lista vacia para los albumess. Retorna el catalogo inicializado.
-    """
 
-    catalog = {'albums': None,
-               'artists': None,
-               'tracks': None}
+    catalog = {"albums": None,
+               "artists": None,
+               "tracks": None}
+    # No se neceistan listas encadenadas pues la información solo se va a
+    # consultar pero no a alterar. Por otro lado siempre se añade
+    # un album, artista o canción
+    # al final de la lista
+    # cosa que no tiene repercusiones de tiempo en un arreglo
+    catalog["albums"] = lt.newList('ARRAY_LIST', cmpfunction=compareAlbums)
+    catalog["artists"] = lt.newList('ARRAY_LIST', cmpfunction=compareArtists)
+    catalog["tracks"] = lt.newList('ARRAY_LIST', cmpfunction=compareTracks)
 
-    catalog['albums'] = lt.newList('ARRAY_LIST')
-    catalog['artists'] = lt.newList('ARRAY_LIST')
-    catalog['tracks'] = lt.newList('SINGLE_LINKED')
     return catalog
 
 
 # Funciones para agregar informacion al catalogo
-def addNewAlbum(catalog, album):
-    neoAlbum = newAlbum(album)
+def addAlbum(catalog, albumdic):
+    neoAlbum = newAlbum(albumdic)
     lt.addLast(catalog['albums'], neoAlbum)
     return catalog
 
 
-def addNewArtist(catalog, artist):
-    lt.addLast(catalog['artists'], artist)
+def addArtist(catalog, artistdic):
+    neoArtist = newArtist(artistdic)
+    for album in lt.iterator(catalog["albums"]):
+        artists = (album["artist_id"].strip()).lower()
+        if neoArtist['id'].lower() in artists:
+            if lt.isPresent(album['artist_dic'], neoArtist) == 0:
+                lt.addLast(album['artist_dic'], neoArtist)
+    lt.addLast(catalog["artists"], neoArtist)
     return catalog
 
 
-def addNewTrack(catalog, track):
+def addTrack(catalog, track):
+    for artist in lt.iterator(catalog['artists']):
+        tracks = (track['artists_id'].strip()).lower()
+        if artist['id'].lower() in tracks:
+            lt.addLast(artist["all_tracks"], track)
     lt.addLast(catalog['tracks'], track)
     return catalog
-
 # Funciones para creacion de datos
 
 
+def newAlbum(albumdic):
+    if albumdic["release_date"].startswith(("Jan", "Feb", "Mar", "Apr",
+                                            "May", "Jun", "Jul", "Aug",
+                                            "Sep", "Oct", "Nov", "Dec")):
+
+        date_format = dt.strptime(albumdic["release_date"], "%b-%y")
+        anio = int(dt.strftime(date_format, "%Y"))
+
+        if anio > 2022:
+            anio = anio - 100
+
+    else:
+        try:
+            date_format = dt.strptime(albumdic["release_date"], "%Y-%m-%d")
+            anio = int(dt.strftime(date_format, "%Y"))
+
+        except ValueError:
+            date_format = dt.strptime(albumdic["release_date"], "%Y")
+            anio = int(dt.strftime(date_format, "%Y"))
+
+    albumdic["release_date"] = anio
+    albumdic['artist_dic'] = lt.newList('ARRAY_LIST')
+
+    return albumdic
 
 
-def newAlbum(album1):
-    album = {'name': "", 'release_date': "", 'avalaible_markets': None,
-             'total_tracks': None, 'type': "", 'artists': None,
-             'external_urls': "", 'images': ""}
+def newArtist(artistdic):
+    artistdic["all_tracks"] = lt.newList("ARRAY_LIST", cmpfunction=compareTracks)
 
-    album['name'] = album1['name']
-    album['release_date'] = album1['release_date']
-    album['available_markets'] = album1['available_markets']
-    album['total_tracks'] = album1['total_tracks']
-    album['type'] = album1['album_type']
-    album['artists'] = lt.newList('ARRAY_LIST')
-    album['external_urls'] = album1['external_urls']
-    album['images'] = album1['images']
-    return album
-
-
-def newArtist(artist1):
-    artist = {'name': "", 'popularity': "", 'genres': "",
-              'followers': "", 'tracks': None}
-    artist['name'] = artist1['name']
-    artist['popularity'] = artist1['popularity']
-    artist['genres'] = lt.newList('ARRAY_LIST')
-    return artist
-
-def newTrack(track1):
-    track = {'name': "", 'popularity': "", 'genres': "",
-              'album_id': "", 'artist_id': None}
-    track['name'] = track1['name']
-    track['popularity'] = track1['popularity']
-    track['artist_id'] = lt.newList('ARRAY_LIST')
-    track['album_id'] = track1['album_id']
-    return track
-
+    return artistdic
 # Funciones de consulta
+
+
+def albumesPorAnio(catalog, anio_o, anio_f):
+    """
+    retorna una lista de albumes en in periodo de tiempo
+    """
+    albums = catalog['albums']
+    lista_albums = lt.newList("ARRAY_LIST")
+    for album in lt.iterator(albums):
+        if (album['release_date'] >= anio_o) and (album['release_date'] <= anio_f):
+            lt.addLast(lista_albums, album)
+    return lista_albums
+
+
+def getTopArtists(list, topN):
+    artistas = list["artists"]
+    lista_artistas = lt.newList("ARRAY_LIST")
+    for pos in range(topN):
+        lt.addLast(lista_artistas, lt.getElement(artistas, pos+1))
+    return lista_artistas
+
+
+def getPopularTracks(list, nombre, pais):
+    albumes = list["albums"]
+    albumsAndThings = lt.newList("ARRAY_LIST")
+    validAlbums = lt.newList("ARRAY_LIST")
+    validArtist = lt.newList("ARRAY_LIST")
+    validTracks = lt.newList("ARRAY_LIST")
+    for album in lt.iterator(albumes):
+# NO ES o(n)>2, ya que solo realiza el segundo loop en el caso de
+# encontrar el artista buscado, y la segunda iteracion es o(1)
+        if pais in album["available_markets"]:
+            for artist in lt.iterator(album['artist_dic']):
+                if (artist["name"] in nombre):
+                    lt.addLast(validAlbums, album)
+                    if lt.size(validArtist) == 0:
+                        lt.addLast(validArtist, artist)
+                        for track in lt.iterator(artist["all_tracks"]):
+                            if pais in track["available_markets"]:
+                                lt.addLast(validTracks, track)
+
+    lt.addLast(albumsAndThings, validArtist)
+    lt.addLast(albumsAndThings, validAlbums)
+    lt.addLast(albumsAndThings, validTracks)
+    return albumsAndThings
+
+# FUnciones de inidcadores de tamaño
+
 
 def albumSize(catalog):
     return lt.size(catalog['albums'])
@@ -181,10 +226,10 @@ def compareTracks(track1, track2):
     except ValueError:
         if track1["duration_ms"] == '':
             track1["duration_ms"] = 0
-        
+
         if track2["duration_ms"] == '':
             track2["duration_ms"] = 0
-        
+
         if float(track1["popularity"]) == float(track2["popularity"]):
             return float(track1["duration_ms"]) > float(track2["duration_ms"])
     try:
@@ -193,16 +238,17 @@ def compareTracks(track1, track2):
             return track1["name"] > track2["name"]
         else:
             pass
+
     except ValueError:
         if track1["duration_ms"] == '':
             track1["duration_ms"] = 0
 
         if track2["duration_ms"] == '':
-            track2 ["duration_ms"] = 0
-        
+            track2["duration_ms"] = 0
+
         if float(track1["duration_ms"]) == float(track2["duration_ms"]):
             return track1["name"] > track2["name"]
-    
+
 # Funciones de ordenamiento
 
 
@@ -212,34 +258,6 @@ def sortAlbums(catalog):
 
 def sortArtists(catalog):
     sa.sort(catalog['artists'], compareArtists)
-
-#TODO: Borrar despues del lab 4:
-def sortArtistslab(catalog, size, ttype, sorter):
-    sub_list = lt.subList(catalog['artists'], 1, int((size/100)*artistSize(catalog)))
-    start_time = time.time()
-    sorted_list = lt.newList(ttype)
-    if sorter.lower() in "shell":
-        print("Sorting con shell...")
-        sorted_list = sa.sort(sub_list, compareFollowers)
-    elif sorter.lower() in "insertion":
-        print("Sorting con insertion...")
-        sorted_list = ins.sort(sub_list, compareFollowers)
-    elif sorter.lower() in "selection":
-        print("Sorting con selection...")
-        sorted_list = ses.sort(sub_list, compareFollowers)
-    elif sorter.lower() in "merge":
-        print("Sorting con merge...")
-        sorted_list = mes.sort(sub_list, compareFollowers)
-    else:
-        print("Sorting con quick...")
-        sorted_list = qus.sort(sub_list, compareFollowers)
-    end_time = time.time()
-    delta_time = end_time - start_time
-    return sorted_list, delta_time
-
-def compareFollowers(artist1, artist2):
-    return (float(artist1['followers']) < float(artist2['followers']))
-
 
 
 def sortTracks(catalog):
