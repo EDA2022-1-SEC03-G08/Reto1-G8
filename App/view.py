@@ -131,6 +131,9 @@ def printAlbumsPorAnio(albums, anio_o, anio_f):
 def printTopArtistas(topArtistas):
     con = 0
     numN = topN
+    print("===================="*7)
+    print("Primeros tres artistas")
+    print("===================="*7)
     while numN > 0 and con < 3:
         artistN = lt.getElement(topArtistas, con + 1)
         #Se busca la track mas popular en la lista de tracks del artista
@@ -148,6 +151,9 @@ def printTopArtistas(topArtistas):
         con = numN
         numN = 3
     numN += 1
+    print("===================="*7)
+    print("Ultimos tres artistas")
+    print("===================="*7)
     while con > 0:
         artistN = lt.getElement(topArtistas, numN)
         nombreCancion = ""
@@ -183,6 +189,9 @@ def printCancion(name, nombreAlbum, fecha, artistas, duration, popularity ,url, 
 def printCancionespPorRegion(size, artists, albums, tracks):
     con = 0
     numN = size
+    print("===================="*7)
+    print("Primeras tres canciones")
+    print("===================="*7)
     while numN > 0 and con < 3:
         cancion = lt.getElement(tracks, con + 1)
         nonmbreAlbum = "No identificado" 
@@ -206,6 +215,9 @@ def printCancionespPorRegion(size, artists, albums, tracks):
         con = numN
         numN = 3
     numN += 1
+    print("===================="*7)
+    print("Ultimas tres canciones")
+    print("===================="*7)
     while con > 0:
         cancion = lt.getElement(tracks, con + 1)
         nonmbreAlbum = "No identificado" 
