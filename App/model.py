@@ -109,7 +109,6 @@ def newAlbum(albumdic):
             if anio > 2022:
                 anio = anio - 100
 
-
     albumdic["release_date"] = int(anio)
     albumdic['artist_dic'] = lt.newList('ARRAY_LIST')
 
