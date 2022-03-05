@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
-from curses import panel
+
 import config as cf
 import model
 import csv
@@ -51,13 +51,13 @@ def loadData(control):
     tracks = loadTracks(catalog)
     sortAlbums(catalog)
     sortTracks(catalog)
-    sortArtists(catalog) 
+    sortArtists(catalog)
     return albums, artists, tracks
 
 
 def loadAlbums(catalog):
 
-    albumsfile = cf.data_dir + 'spotify-albums-utf8-5pct.csv'
+    albumsfile = cf.data_dir + 'spotify-albums-utf8-small.csv'
     input_file_al = csv.DictReader(open(albumsfile, encoding='utf-8'))
     for album in input_file_al:
         model.addAlbum(catalog, album)
@@ -65,7 +65,7 @@ def loadAlbums(catalog):
 
 
 def loadArtist(catalog):
-    artistsfile = cf.data_dir + 'spotify-artists-utf8-5pct.csv'
+    artistsfile = cf.data_dir + 'spotify-artists-utf8-small.csv'
     input_file_ar = csv.DictReader(open(artistsfile, encoding='utf-8'))
     for artist in input_file_ar:
         model.addArtist(catalog, artist)
@@ -73,7 +73,7 @@ def loadArtist(catalog):
 
 
 def loadTracks(catalog):
-    tracksfile = cf.data_dir + 'spotify-tracks-utf8-5pct.csv'
+    tracksfile = cf.data_dir + 'spotify-tracks-utf8-small.csv'
     input_file_tr = csv.DictReader(open(tracksfile, encoding='utf-8'))
     for track in input_file_tr:
         model.addTrack(catalog, track)
@@ -99,8 +99,10 @@ def albumesPorAnio(control, anio_o, anio_f):
     albums = model.albumesPorAnio(control['model'], anio_o, anio_f)
     return albums
 
+
 def getTopArtists(control, topN):
     return model.getTopArtists(control["model"], topN)
+
 
 def getPopularTracks(control, nombre, pais):
     pa = pycountry.countries.search_fuzzy(str(pais))

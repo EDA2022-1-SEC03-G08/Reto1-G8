@@ -1,5 +1,4 @@
-﻿from re import I
-import config as cf
+﻿import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
@@ -121,6 +120,7 @@ def printAlbumsPorAnio(albums, anio_o, anio_f):
     else:
         print("No hay albumes en estos periodos")
 
+
 def printTopArtistas(topArtistas):
     con = 0
     numN = topN
@@ -129,7 +129,7 @@ def printTopArtistas(topArtistas):
     print("===================="*7)
     while numN > 0 and con < 3:
         artistN = lt.getElement(topArtistas, con + 1)
-        #Se busca la track mas popular en la lista de tracks del artista
+        # Se busca la track mas popular en la lista de tracks del artista
         # Resulta O(1) ya que la lista iterada es notablemente menor que
         # n total de datos
         nombreCancion = ""
@@ -137,7 +137,9 @@ def printTopArtistas(topArtistas):
             if el["id"] == artistN["track_id"]:
                 nombreCancion = el["name"]
                 break
-        printArtista(artistN["name"], artistN["artist_popularity"], artistN["followers"], artistN["genres"], nombreCancion)
+        printArtista(artistN["name"], artistN["artist_popularity"],
+                     artistN["followers"], artistN["genres"],
+                     nombreCancion)
         numN -= 1
         con += 1
     if numN < 3:
@@ -154,17 +156,21 @@ def printTopArtistas(topArtistas):
             if el["id"] == artistN["track_id"]:
                 nombreCancion = el["name"]
                 break
-        printArtista(artistN["name"], artistN["artist_popularity"], artistN["followers"], artistN["genres"], nombreCancion)
+        printArtista(artistN["name"], artistN["artist_popularity"],
+                     artistN["followers"],
+                     artistN["genres"], nombreCancion)
         numN += 1
         con -= 1
 
+
 def printArtista(name, popularity, followers, genres, topSong):
     print("\n")
-    print(f"||Nombre: " + name + "\n")
-    print(f"||Popularidad: " + popularity + "\n")
-    print(f"||Followers: " + followers + "\n")
-    print(f"||Generos: " + genres + "\n")
-    print(f"||Cancion referente: " + topSong + "\n")
+    print(f"||Nombre: {name}\n  ")
+    print(f"||Popularidad: {popularity}\n  ")
+    print(f"||Followers: {followers}\n  ")
+    print(f"||Generos: {genres}\n  ")
+    print(f"||Cancion referente: {topSong}\n  ")
+
 
 def printCancionespPorRegion(size, artists, albums, tracks):
     con = 0
@@ -174,21 +180,23 @@ def printCancionespPorRegion(size, artists, albums, tracks):
     print("===================="*7)
     while numN > 0 and con < 3:
         cancion = lt.getElement(tracks, con + 1)
-        nonmbreAlbum = "No identificado" 
+        nonmbreAlbum = "No identificado"
         fechAlbum = "No identificada"
         nombreArtistas = ""
         for album in lt.iterator(albums):
             if cancion["album_id"] == album["id"]:
-               nonmbreAlbum = album["name"] 
-               fechAlbum = album["release_date"]
-               for artist in lt.iterator(album["artist_dic"]):
-                   nombreArtistas += artist["name"] + " "
-               break
+                nonmbreAlbum = album["name"]
+                fechAlbum = album["release_date"]
+                for artist in lt.iterator(album["artist_dic"]):
+                    nombreArtistas += artist["name"] + " "
+                break
         letra = cancion["lyrics"]
         if letra == "-99":
             letra = "Letra de la canción NO disponible"
         letra = (letra[:150] + '\n...') if len(letra) > 150 else letra
-        printCancion(cancion["name"], nonmbreAlbum, fechAlbum, nombreArtistas, cancion["duration_ms"], cancion["popularity"], cancion["preview_url"], letra)
+        printCancion(cancion["name"], nonmbreAlbum, fechAlbum,
+                     nombreArtistas, cancion["duration_ms"],
+                     cancion["popularity"], cancion["preview_url"], letra)
         numN -= 1
         con += 1
     if numN < 3:
@@ -200,36 +208,42 @@ def printCancionespPorRegion(size, artists, albums, tracks):
     print("===================="*7)
     while con > 0:
         cancion = lt.getElement(tracks, con + 1)
-        nonmbreAlbum = "No identificado" 
+        nonmbreAlbum = "No identificado"
         fechAlbum = "No identificada"
         nombreArtistas = ""
         for album in lt.iterator(albums):
             if cancion["album_id"] == album["id"]:
-               nonmbreAlbum = album["name"] 
-               fechAlbum = album["release_date"]
-               for artist in lt.iterator(album["artist_dic"]):
-                   nombreArtistas += artist["name"] + " "
-               break
+                nonmbreAlbum = album["name"]
+                fechAlbum = album["release_date"]
+                for artist in lt.iterator(album["artist_dic"]):
+                    nombreArtistas += artist["name"] + " "
+                break
         letra = cancion["lyrics"]
         if letra == "-99":
             letra = "Letra de la canción NO disponible"
         letra = (letra[:150] + '\n...') if len(letra) > 150 else letra
-        printCancion(cancion["name"], nonmbreAlbum, fechAlbum, nombreArtistas, cancion["duration_ms"], cancion["popularity"], cancion["preview_url"], letra)
+        printCancion(cancion["name"], nonmbreAlbum, fechAlbum,
+                     nombreArtistas, cancion["duration_ms"],
+                     cancion["popularity"], cancion["preview_url"], letra)
         numN += 1
         con -= 1
-        
-def printCancion(name, nombreAlbum, fecha, artistas, duration, popularity ,url, letra):
+
+
+def printCancion(name, nombreAlbum, fecha, artistas,
+                 duration, popularity, url, letra):
     print("\n")
-    print(f"||Nombre: " + name + "\n")
-    print(f"||Album: " + nombreAlbum + "\n")
-    print(f"||Fecha de publicación: " + str(fecha) + "\n")
-    print(f"||Artistas: ")
+    print(f"||Nombre: {name}\n  ")
+    print(f"||Album: {nombreAlbum}\n  ")
+    print(f"||Fecha de publicación: {str(fecha)}\n  ")
+    print(f"||Artistas: {artistas}\n  ")
     for a in artistas.split():
         print(a + " \n")
-    print(f"||Duración: " + str(duration) + "\n")
-    print(f"||Popularidad: " + popularity + "\n")
-    print(f"||URL preview: " + url + "\n")
-    print(f"||Letra: " + letra + "\n ||")
+    print(f"||Duración: {str(duration)}")
+    print(f"||Popularidad: {popularity}")
+    print(f"||URL preview: {url}")
+    print(f"||Letra: {letra}\n ||")
+
+
 """
 Menu principal
 """
@@ -261,12 +275,15 @@ while True:
     elif int(inputs[0]) == 3:
 
         topN = int(input("Ingrese el numero de artistas a encontrar:\n"))
-        #Se busca cada elemento segun su posicion en la lista ya organizada y se
-        #Imprime la info por cada artista
-        topArtistas = controller.getTopArtists(control,topN)
+        """
+        Se busca cada elemento segun su posicion en la lista ya organizada y se
+        Imprime la info por cada artista
+        """
+        topArtistas = controller.getTopArtists(control, topN)
         size = lt.size(topArtistas)
         if size:
-            print("Los primeros y ultimos 3 artistas más populares en el top" + str(topN) + ":")
+            print("Los primeros y ultimos 3 artistas más \
+                  populares en el top" + str(topN) + ":")
             printTopArtistas(topArtistas)
         else:
             print("0 artistas en TOP 0")
@@ -276,9 +293,12 @@ while True:
 
     elif int(inputs[0]) == 5:
         nobreArtist = input("Ingrese el nombre del artista:\n")
-        nombrePais = input("Ingrese el nombre de país/mercado disponible de la canción:\n")
+        nombrePais = input("Ingrese el nombre de país/mercado disponible de \
+                            la canción:\n")
 
-        artistaInfo, pais = controller.getPopularTracks(control, nobreArtist, nombrePais)
+        artistaInfo, pais = controller.getPopularTracks(control,
+                                                        nobreArtist,
+                                                        nombrePais)
         size = lt.size(artistaInfo)
         if size:
             artist = lt.getElement(artistaInfo, 1)
@@ -286,10 +306,12 @@ while True:
             validTracks = lt.getElement(artistaInfo, 3)
             x = lt.size(validAlbums)
             y = lt.size(validTracks)
-            print("Discografia disponible de " + nobreArtist + " en " + nombrePais + " (" + pais + "): ")
+            print("Discografia disponible de " + nobreArtist +
+                  " en " + nombrePais + " (" + pais + "): ")
             print("Albumes disponibles regionalmente: " + str(x))
             print("Canciones disponibles regionalmente: " + str(y) + "\n")
-            print("Los primeras y ultimas 3 canciones más populares de " + nobreArtist + " en " + pais + ":")
+            print("Los primeras y ultimas 3 canciones más populares de " +
+                  nobreArtist + " en " + pais + ":")
             printCancionespPorRegion(y, artist, validAlbums, validTracks)
         else:
             print("No se encontro al artista.")
