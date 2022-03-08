@@ -19,12 +19,10 @@
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
-
 import config as cf
 import model
 import csv
 import pycountry
-
 ...
 csv.field_size_limit(2147483647)
 
@@ -45,18 +43,19 @@ def newController():
 
 # Funciones para la carga de datos
 def loadData(control):
+
     catalog = control['model']
     albums = loadAlbums(catalog)
     artists = loadArtist(catalog)
     tracks = loadTracks(catalog)
     sortAlbums(catalog)
-    sortTracks(catalog)
     sortArtists(catalog)
+    sortTracks(catalog)
+
     return albums, artists, tracks
 
 
 def loadAlbums(catalog):
-
     albumsfile = cf.data_dir + 'spotify-albums-utf8-small.csv'
     input_file_al = csv.DictReader(open(albumsfile, encoding='utf-8'))
     for album in input_file_al:
@@ -108,3 +107,13 @@ def getPopularTracks(control, nombre, pais):
     pa = pycountry.countries.search_fuzzy(str(pais))
     xa = pa[0].alpha_2
     return model.getPopularTracks(control["model"], nombre, xa), xa
+
+
+def popularTracks(control, top):
+    tracks = model.popularTracks(control['model'], top)
+    return tracks
+
+
+def discografiaArtista(control, nombreArtista):
+    albums = model.discografiaArtista(control['model'], nombreArtista)
+    return albums

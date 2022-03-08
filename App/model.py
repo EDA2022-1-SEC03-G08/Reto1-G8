@@ -24,7 +24,6 @@
  * Dario Correal - Version inicial
  """
 from optparse import TitledHelpFormatter
-from platform import release
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import mergesort as sa
@@ -67,18 +66,16 @@ def addAlbum(catalog, albumdic):
 def addArtist(catalog, artistdic):
     neoArtist = newArtist(artistdic)
     for album in lt.iterator(catalog["albums"]):
-        artists = (album["artist_id"].strip()).lower()
+        artists = album["artist_id"].lower()
         if neoArtist['id'].lower() in artists:
-            if lt.isPresent(album['artist_dic'], neoArtist) == 0:
-                lt.addLast(album['artist_dic'], neoArtist)
+            lt.addLast(album['artist_dic'], neoArtist)
     lt.addLast(catalog["artists"], neoArtist)
     return catalog
 
 
 def addTrack(catalog, track):
     for artist in lt.iterator(catalog['artists']):
-        tracks = (track['artists_id'].strip()).lower()
-        if artist['id'].lower() in tracks:
+        if artist['id'].lower() in track['artists_id'].lower():
             lt.addLast(artist["all_tracks"], track)
     lt.addLast(catalog['tracks'], track)
     return catalog
@@ -86,6 +83,7 @@ def addTrack(catalog, track):
 
 
 def newAlbum(albumdic):
+
     if albumdic["release_date"].startswith(("Jan", "Feb", "Mar", "Apr",
                                             "May", "Jun", "Jul", "Aug",
                                             "Sep", "Oct", "Nov", "Dec")):
@@ -101,18 +99,25 @@ def newAlbum(albumdic):
             date_format = dt.strptime(albumdic["release_date"], "%Y-%m-%d")
             anio = int(dt.strftime(date_format, "%Y"))
 
+            if anio > 2022:
+                anio = anio - 100
+
         except ValueError:
             date_format = dt.strptime(albumdic["release_date"], "%Y")
             anio = int(dt.strftime(date_format, "%Y"))
 
-    albumdic["release_date"] = anio
+            if anio > 2022:
+                anio = anio - 100
+
+    albumdic["release_date"] = int(anio)
     albumdic['artist_dic'] = lt.newList('ARRAY_LIST')
 
     return albumdic
 
 
 def newArtist(artistdic):
-    artistdic["all_tracks"] = lt.newList("ARRAY_LIST", cmpfunction=compareTracks)
+    artistdic["all_tracks"] = lt.newList("ARRAY_LIST",
+                                         cmpfunction=compareTracks)
 
     return artistdic
 # Funciones de consulta
@@ -125,7 +130,8 @@ def albumesPorAnio(catalog, anio_o, anio_f):
     albums = catalog['albums']
     lista_albums = lt.newList("ARRAY_LIST")
     for album in lt.iterator(albums):
-        if (album['release_date'] >= anio_o) and (album['release_date'] <= anio_f):
+        if (album['release_date'] >= anio_o) and \
+           (album['release_date'] <= anio_f):
             lt.addLast(lista_albums, album)
     return lista_albums
 
@@ -145,11 +151,11 @@ def getPopularTracks(list, nombre, pais):
     validArtist = lt.newList("ARRAY_LIST")
     validTracks = lt.newList("ARRAY_LIST")
     for album in lt.iterator(albumes):
-# NO ES o(n)>2, ya que solo realiza el segundo loop en el caso de
-# encontrar el artista buscado, y la segunda iteracion es o(1)
+        # NO ES o(n)>2, ya que solo realiza el segundo loop en el caso de
+        # encontrar el artista buscado, y la segunda iteracion es o(1)
         if pais in album["available_markets"]:
             for artist in lt.iterator(album['artist_dic']):
-                if (artist["name"] in nombre):
+                if (artist["name"].lower() in nombre.lower()):
                     lt.addLast(validAlbums, album)
                     if lt.size(validArtist) == 0:
                         lt.addLast(validArtist, artist)
@@ -164,6 +170,30 @@ def getPopularTracks(list, nombre, pais):
 
 # FUnciones de inidcadores de tamaño
 
+
+def popularTracks(catalog, top):
+    """
+    retorna una lista con las N canciones mas populares
+    """
+    tracks = catalog['tracks']
+    lista_tracks = lt.newList("ARRAY_LIST")
+    for track in lt.iterator(tracks):
+        if lt.size(lista_tracks) < top:
+            lt.addLast(lista_tracks, track)
+    return lista_tracks
+
+
+def discografiaArtista(catalog, nombreArtista):
+    nombre = str(nombreArtista).strip().lower()
+    lista_albums = lt.newList("ARRAY_LIST")
+    for album in lt.iterator(catalog['albums']):
+        for artista in lt.iterator(album['artist_dic']):
+            if nombre == artista['name'].strip().lower():
+                lt.addLast(lista_albums, album)
+    return lista_albums
+
+
+# FUnciones de inidcadores de tamaño
 
 def albumSize(catalog):
     return lt.size(catalog['albums'])
