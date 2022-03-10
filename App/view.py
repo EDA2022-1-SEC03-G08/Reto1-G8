@@ -438,11 +438,7 @@ def printCancion(name, nombreAlbum, fecha, artistas,
     print(f"||Nombre: {name}")
     print(f"||Album: {nombreAlbum}")
     print(f"||Fecha de publicación: {str(fecha)}")
-    print(f"||Artistas: {artistas}\n")
-
-    for a in artistas.split():
-        print(a + " \n")
-
+    print(f"||Artistas: {artistas}")
     print(f"||Duración: {str(duration)}")
     print(f"||Popularidad: {popularity}")
     print(f"||URL preview: {url}")
