@@ -107,3 +107,7 @@ def getPopularTracks(control, nombre, pais):
     pa = pycountry.countries.search_fuzzy(str(pais))
     xa = pa[0].alpha_2
     return model.getPopularTracks(control["model"], nombre, xa), xa
+
+#TODO:REVISAR; FUNCION DE BONO
+def getTopCancionesAnio(control, topN, anioI, anioF):
+    return model.getTopCancionesAnio(control["model"], topN, anioI, anioF)

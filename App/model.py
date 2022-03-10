@@ -161,6 +161,23 @@ def getPopularTracks(list, nombre, pais):
     lt.addLast(albumsAndThings, validAlbums)
     lt.addLast(albumsAndThings, validTracks)
     return albumsAndThings
+    
+#TODO:REVISAR; FUNCION DE BONO
+
+def getTopCancionesAnio(list, topN, anio_i, anio_f):
+    validAlbums = albumesPorAnio(list, anio_i, anio_f)
+    validTracks = lt.newList('ARRAY_LIST')
+    finalTracks = lt.newList('ARRAY_LIST')
+    for album in lt.iterator(validAlbums):
+        for artist in lt.iterator(album["artist_dic"]):
+            for track in lt.iterator(artist["all_tracks"]):
+                lt.addLast(validTracks, track)
+    sa.sort(validTracks, compareTracks)
+    for song in range(topN):
+        lt.addLast(finalTracks, lt.getElement(validTracks, song+1))
+
+    return finalTracks, validAlbums
+    
 
 # FUnciones de inidcadores de tamaño
 

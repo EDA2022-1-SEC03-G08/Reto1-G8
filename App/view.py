@@ -237,6 +237,60 @@ def printCancion(name, nombreAlbum, fecha, artistas, duration, popularity ,url, 
     print(f"||Popularidad: " + popularity + "\n")
     print(f"||URL preview: " + url + "\n")
     print(f"||Letra: " + letra + "\n ||")
+
+#TODO: Revisar, funcion de bono
+def printTopcancionesAnio(tracks, albumes):
+    con = 0
+    numN = size
+    print("===================="*7)
+    print("Primeras tres canciones")
+    print("===================="*7)
+    while numN > 0 and con < 3:
+        cancion = lt.getElement(tracks, con + 1)
+        nonmbreAlbum = "No identificado" 
+        fechAlbum = "No identificada"
+        nombreArtistas = ""
+        for album in lt.iterator(albumes):
+            if cancion["album_id"] == album["id"]:
+               nonmbreAlbum = album["name"] 
+               fechAlbum = album["release_date"]
+               for artist in lt.iterator(album["artist_dic"]):
+                   nombreArtistas += artist["name"] + " "
+               break
+        paises = 0
+        for pais in cancion["available_markets"]:
+            paises += 1
+        #TODO: Crear la siguiente funcion
+        printCancionAnio(cancion["name"], nonmbreAlbum, nombreArtistas, paises, cancion["popularity"],  cancion["duration_ms"])
+        numN -= 1
+        con += 1
+    if numN < 3:
+        con = numN
+        numN = 3
+    numN += 1
+    print("===================="*7)
+    print("Ultimas tres canciones")
+    print("===================="*7)
+    while con > 0:
+        cancion = lt.getElement(tracks, con + 1)
+        nonmbreAlbum = "No identificado" 
+        fechAlbum = "No identificada"
+        nombreArtistas = ""
+        for album in lt.iterator(albums):
+            if cancion["album_id"] == album["id"]:
+               nonmbreAlbum = album["name"] 
+               fechAlbum = album["release_date"]
+               for artist in lt.iterator(album["artist_dic"]):
+                   nombreArtistas += artist["name"] + " "
+               break
+        paises = 0
+        for pais in cancion["available_markets"]:
+            paises += 1
+        #TODO: Crear la siguiente funcion
+        printCancionAnio(cancion["name"], nonmbreAlbum, nombreArtistas, paises, cancion["popularity"],  cancion["duration_ms"])
+        numN += 1
+        con -= 1
+
 """
 Menu principal
 """
@@ -303,8 +357,21 @@ while True:
 
     elif int(inputs[0]) == 6:
         pass
+#TODO: Revisar, FUncion de bono
     elif int(inputs[0]) == 7:
-        pass
+        Anio1 = int(input("Ingrese año inicial de busqueda:\n"))
+        Anio2 = int(input("Ingrese año final de busqueda:\n"))
+        topN = int(input("Ingrese el numero de canciones requeridas: Top5, Top10, etc... \n"))
+        topCancionesAnio, albumes = controller.getTopCancionesAnio(control,topN, Anio1, Anio2)
+        size = lt.size(topCancionesAnio)
+        if size:
+            print("Los primeras y ultimas 3 canciones más populares en el top" + str(topN) + " entre " + str(Anio1) + " y " + str(Anio2) + ":")
+            printTopcancionesAnio(topCancionesAnio,albumes)
+        else:
+            print("0 canciones en TOP 0")
+
+
+
     elif int(inputs[0]) == 0:
         sys.exit(0)
     else:
