@@ -651,6 +651,61 @@ def printDiscografiaArtista(albums, nombreArtista):
     else:
         print(f"No se encontro discografia de {nombreArtista}")
 
+def printTopcancionesAnio(tracks, albumes):
+    con = 0
+    numN = topN
+    print("===================="*7)
+    print("Primeras tres canciones")
+    print("===================="*7)
+    while numN > 0 and con < 3:
+        cancion = lt.getElement(tracks, con + 1)
+        nonmbreAlbum = "No identificado" 
+        nombreArtistas = ""
+        for album in lt.iterator(albumes):
+            if cancion["album_id"] == album["id"]:
+               nonmbreAlbum = album["name"] 
+               for artist in lt.iterator(album["artist_dic"]):
+                   nombreArtistas += artist["name"] + " "
+               break
+        paises = 0
+        for pais in cancion["available_markets"]:
+            paises += 1
+        printCancionAnio(cancion["name"], nonmbreAlbum, nombreArtistas, paises, cancion["popularity"],  cancion["duration_ms"])
+        numN -= 1
+        con += 1
+    if numN < 3:
+        con = numN
+        numN = 3
+    numN += 1
+    print("===================="*7)
+    print("Ultimas tres canciones")
+    print("===================="*7)
+    while con > 0:
+        cancion = lt.getElement(tracks, numN)
+        nonmbreAlbum = "No identificado" 
+        nombreArtistas = ""
+        for album in lt.iterator(albumes):
+            if cancion["album_id"] == album["id"]:
+               nonmbreAlbum = album["name"] 
+               for artist in lt.iterator(album["artist_dic"]):
+                   nombreArtistas += artist["name"] + " "
+               break
+        paises = 0
+        for pais in cancion["available_markets"]:
+            paises += 1
+        printCancionAnio(cancion["name"], nonmbreAlbum, nombreArtistas, paises, cancion["popularity"],  cancion["duration_ms"])
+        numN += 1
+        con -= 1
+
+def printCancionAnio(name, nombreAlbum, artistas,
+                 paises, popularity, duracion):
+    print("\n")
+    print(f"||Nombre: {name}")
+    print(f"||Album: {nombreAlbum}")
+    print(f"||Artistas: {artistas}")
+    print(f"||Duración: {str(duracion)}")
+    print(f"||Popularidad: {popularity}")
+    print(f"||Mercados disponibles: {str(paises)}")
 
 """
 Menu principal
