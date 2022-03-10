@@ -117,3 +117,6 @@ def popularTracks(control, top):
 def discografiaArtista(control, nombreArtista):
     albums = model.discografiaArtista(control['model'], nombreArtista)
     return albums
+
+def getTopCancionesAnio(control, topN, anioI, anioF):
+    return model.getTopCancionesAnio(control["model"], topN, anioI, anioF)
