@@ -792,7 +792,19 @@ while True:
         printDiscografiaArtista(albums, nombre)
         pass
     elif int(inputs[0]) == 7:
-        pass
+        Anio1 = int(input("Ingrese año inicial de busqueda:\n"))
+        Anio2 = int(input("Ingrese año final de busqueda:\n"))
+        topN = int(input("Ingrese el numero de canciones requeridas: Top5, Top10, etc... \n"))
+        topCancionesAnio, valAlbumes = controller.getTopCancionesAnio(control,topN, Anio1, Anio2)
+        size = lt.size(topCancionesAnio)
+        print(size)
+        print(lt.size(valAlbumes))
+        if size:
+            print("Los primeras y ultimas 3 canciones más populares en el top" + str(topN) + " entre " + str(Anio1) + " y " + str(Anio2) + ":")
+            printTopcancionesAnio(topCancionesAnio, valAlbumes)
+        else:
+            print("0 canciones en TOP 0")
+            
     elif int(inputs[0]) == 0:
         sys.exit(0)
     else:
